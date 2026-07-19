@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Aggregation – WiFi Sensing for Urban Analytics: An Open-Source R Toolkit</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./3-2-cleaning.html" rel="next">
+<link href="./2-4-deployment.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-c22456e2fc68fcf4823d2a36a40d3abd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="custom.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3-1-aggregation.html">Processing Data</a></li><li class="breadcrumb-item"><a href="./3-1-aggregation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aggregation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">WiFi Sensing for Urban Analytics: An Open-Source R Toolkit</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Building the Sensor</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-1-installation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prepare the Raspberry Pi</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-2-configuration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Install the Collector</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-3-experiment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Configure the Experiment</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-4-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Validate and Deploy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Processing Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-1-aggregation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aggregation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-2-cleaning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Extracting Metrics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-1-overview.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Metrics Overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-2-location.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Location</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-3-count.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Count</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-4-track.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Track</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-5-revisits.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Revisits</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-6-activities.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Activities</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Demonstration</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-2-casestudy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Pedestrian Activity in a Commercial District</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-conclusion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">When to Use This Toolkit</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./A-deployment.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Deployment Details</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./B-randomization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">MAC Address Randomization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./C-five-deployments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Five Deployments Across the Randomization Transition (2019–2024)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#database-overview" id="toc-database-overview" class="nav-link active" data-scroll-target="#database-overview"><span class="header-section-number">5.1</span> Database Overview</a></li>
+  <li><a href="#load-and-process-in-r" id="toc-load-and-process-in-r" class="nav-link" data-scroll-target="#load-and-process-in-r"><span class="header-section-number">5.2</span> Load and Process in R</a>
+  <ul class="collapse">
+  <li><a href="#install-packages" id="toc-install-packages" class="nav-link" data-scroll-target="#install-packages">Install Packages</a></li>
+  <li><a href="#connect-and-query" id="toc-connect-and-query" class="nav-link" data-scroll-target="#connect-and-query">Connect and Query</a></li>
+  <li><a href="#filter-by-time" id="toc-filter-by-time" class="nav-link" data-scroll-target="#filter-by-time">Filter by Time</a></li>
+  <li><a href="#filter-by-frame-type" id="toc-filter-by-frame-type" class="nav-link" data-scroll-target="#filter-by-frame-type">Filter by Frame Type</a></li>
+  <li><a href="#filter-by-signal-strength" id="toc-filter-by-signal-strength" class="nav-link" data-scroll-target="#filter-by-signal-strength">Filter by Signal Strength</a></li>
+  <li><a href="#aggregate-by-interval" id="toc-aggregate-by-interval" class="nav-link" data-scroll-target="#aggregate-by-interval">Aggregate by Interval</a></li>
+  <li><a href="#save-and-close" id="toc-save-and-close" class="nav-link" data-scroll-target="#save-and-close">Save and Close</a></li>
+  </ul></li>
+  <li><a href="#pipeline-summary" id="toc-pipeline-summary" class="nav-link" data-scroll-target="#pipeline-summary"><span class="header-section-number">5.3</span> Pipeline Summary</a></li>
+  <li><a href="#automate-the-pipeline" id="toc-automate-the-pipeline" class="nav-link" data-scroll-target="#automate-the-pipeline"><span class="header-section-number">5.4</span> Automate the Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#single-database" id="toc-single-database" class="nav-link" data-scroll-target="#single-database">Single Database</a></li>
+  <li><a href="#multiple-databases" id="toc-multiple-databases" class="nav-link" data-scroll-target="#multiple-databases">Multiple Databases</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3-1-aggregation.html">Processing Data</a></li><li class="breadcrumb-item"><a href="./3-1-aggregation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aggregation</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Aggregation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>WiFi-enabled devices continuously transmit <strong>IEEE 802.11 frames</strong>, including probe requests used to discover nearby networks. A single smartphone can generate <strong>thousands of observations per hour</strong>. Before analysis, this observation stream must be filtered and compressed into meaningful records.</p>
+<p>This chapter covers the <strong>aggregation pipeline</strong>: loading minimized, pseudonymized observations from the database, filtering by time, frame type, and signal strength, then grouping them into time intervals. The result is a compact dataset where each row represents one retained pseudonymous identifier detected at one sensor during one time interval.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e8f4f8', 'primaryTextColor': '#1a1a1a', 'primaryBorderColor': '#5c9ead', 'lineColor': '#5c9ead', 'secondaryColor': '#f0f7e6', 'tertiaryColor': '#fff5e6'}}}%%
+flowchart LR
+    A[Pseudonymized&lt;br/&gt;Observations&lt;br/&gt;SQLite3] --&gt;|load| B[Filter]
+
+    subgraph B[Filtering]
+        direction TB
+        F1[Time Window] --&gt; F2[Frame Type] --&gt; F3[Signal Strength]
+    end
+
+    B --&gt;|aggregate| C[1-Second&lt;br/&gt;Intervals]
+    C --&gt;|save| D[Parquet&lt;br/&gt;by default]
+
+    style A fill:#e8f4f8,stroke:#5c9ead
+    style B fill:#f0f7e6,stroke:#7cb342
+    style C fill:#fff5e6,stroke:#f9a825
+    style D fill:#fce4ec,stroke:#c2185b
+</pre>
+</div>
+<p></p><figcaption> From pseudonymized SQLite observations to aggregated records</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<section id="database-overview" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="database-overview"><span class="header-section-number">5.1</span> Database Overview</h2>
+<p>The collector stores minimized observations in an SQLite3 database, a portable, file-based format. You can inspect its structure using <a href="https://sqlitebrowser.org/">DB Browser for SQLite</a>. This chapter uses a fully synthetic database that implements the same eight-field <code>packets</code> contract as the maintained collector.</p>
+<p>If you do not have an SQLite database produced by the collector, download the <a href="downloads/urban-wifi-synthetic-pipeline.zip">synthetic tutorial archive</a> and its <a href="downloads/urban-wifi-synthetic-pipeline.sha256">SHA-256 checksum</a>. This supplied example is not created by the collector and contains no field observations. Verify the archive, create an empty folder named <code>urban-wifi-synthetic-pipeline</code>, and extract the ZIP into that folder.</p>
+<p>In DB Browser, choose <strong>File &gt; Open Database</strong>. Within the extracted <code>urban-wifi-synthetic-pipeline</code> folder, open <code>workflow &gt; ch3_tutorial &gt; maintained_capture_fixture &gt; maintained_capture.sqlite3</code>. Then choose <strong>Browse Data</strong> and select the <code>packets</code> table, as shown in <a href="#fig-maintained-capture-packets" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>.</p>
+<div id="fig-maintained-capture-packets" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-maintained-capture-packets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="materials/ch3/maintained_capture_packets.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-maintained-capture-packets-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1: The exact eight-field <code>packets</code> table in the maintained synthetic SQLite fixture. The <code>source_address</code> values are 32-character pseudonymous identifiers; the 0/1 flag records the locally administered bit of the corresponding original address.
+</figcaption>
+</figure>
+</div>
+<p>The <code>packets</code> table contains the following attributes:</p>
+<ul>
+<li><code>timestamp</code>: UTC observation time in RFC 3339 format, ending in <code>Z</code></li>
+<li><code>type</code>: frame category, <code>management</code> or <code>data</code></li>
+<li><code>subtype</code>: parsed IEEE 802.11 subtype, such as <code>probe-request</code></li>
+<li><code>strength</code>: signal strength in dBm; lower values indicate weaker signals</li>
+<li><code>source_address</code>: 32-character lowercase deployment-scoped HMAC-SHA-256 pseudonym, not a MAC address</li>
+<li><code>source_address_randomized</code>: locally administered bit read from the observed address before HMAC processing (<code>0</code> or <code>1</code>)</li>
+<li><code>channel</code>: configured WiFi channel on which the frame was observed</li>
+<li><code>sensor_name</code>: opaque identifier of the sensor that recorded the observation</li>
+</ul>
+<p>Each processing stage keeps fewer fields:</p>
+<ul>
+<li><strong>Capture</strong> keeps the full minimized observation contract: <code>timestamp</code>, <code>type</code>, <code>subtype</code>, <code>strength</code>, <code>source_address</code>, <code>source_address_randomized</code>, <code>channel</code>, and <code>sensor_name</code>.</li>
+<li><strong>One second</strong> keeps <code>timestamp</code>, <code>source_address</code>, <code>sensor_name</code>, <code>source_address_randomized</code>, <code>rssi_median</code>, and <code>packet_count</code>. By this point <code>type</code> and <code>subtype</code> have served the frame filter, <code>channel</code> has served the capture-quality checks, and packet rows have collapsed into one source–sensor–second record.</li>
+<li><strong>Twenty seconds</strong> keeps <code>timestamp</code>, <code>source_address</code>, <code>sensor_name</code>, <code>rssi_median</code>, <code>rssi_sum</code>, <code>detections</code>, and <code>strength_sum</code>. Locally administered addresses and stationary identifiers have been removed, and the remaining fields support the five documented metrics.</li>
+</ul>
+<p><code>deployment_id</code>, identifier-scheme metadata, and interface/channel loss counters belong in the separate <code>capture_metadata</code> and <code>capture_interface_summary</code> tables. Repeating them on every observation would add redundancy without supporting the metrics.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Identifier scope">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Identifier scope
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For one deployment, every sensor and date uses the same opaque deployment ID and the same secret 32-byte key. The collector stores the first 16 bytes of a domain-separated HMAC-SHA-256 value as 32 lowercase hexadecimal characters. A later deployment uses a new ID and key, preventing direct cross-deployment linkage. These records remain pseudonymous, not anonymous. This maintained convention is not attributed retrospectively to the 2019–2020 field collection.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Run the whole pipeline with one command">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Run the whole pipeline with one command
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The code walkthrough below makes each operation visible. For routine processing, run the pipeline from either the extracted <code>urban-wifi-synthetic-pipeline</code> folder or the repository root:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/pipeline/run_pipeline.R <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--input</span> workflow/ch3_tutorial/maintained_capture_fixture/maintained_capture.sqlite3 <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--output-dir</span> workflow/ch3_tutorial/maintained_pipeline</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The command creates and verifies <code>01_aggregated_1second.parquet</code>, <code>02_cleaned_1second.parquet</code>, and <code>03_analysis_20second.parquet</code>. The last file has the same format as the released datasets in <code>data/release-20sec/</code>: <code>timestamp</code>, <code>source_address</code>, <code>sensor_name</code>, <code>rssi_median</code>, <code>rssi_sum</code>, and <code>detections</code>, plus the derived score <code>strength_sum = 100 * detections + rssi_sum</code>.</p>
+<p>Data from your own deployment remains pseudonymous, not anonymous; publishing it requires a separate decision and fresh re-pseudonymization.</p>
+</div>
+</div>
+</section>
+<section id="load-and-process-in-r" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="load-and-process-in-r"><span class="header-section-number">5.2</span> Load and Process in R</h2>
+<p>The following section applies the same stages step by step to the synthetic fixture.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Archive contents">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Archive contents
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The tutorial archive downloaded above contains the synthetic SQLite database, checked one-second and 20-second outputs, the five metric outputs, and the scripts needed to reproduce them. Its identifiers are HMAC outputs from synthetic scenario labels under a public test-only key; they are not derived from observed addresses.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>database_relative <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"workflow"</span>, <span class="st">"ch3_tutorial"</span>, <span class="st">"maintained_capture_fixture"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"maintained_capture.sqlite3"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>database_candidates <span class="ot">&lt;-</span> <span class="fu">file.path</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"."</span>, <span class="st">"urban-wifi-synthetic-pipeline"</span>, <span class="st">".."</span>), database_relative</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>database_path <span class="ot">&lt;-</span> database_candidates[<span class="fu">file.exists</span>(database_candidates)][<span class="dv">1</span>]</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">is.na</span>(database_path)) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Extract the ZIP into a folder named urban-wifi-synthetic-pipeline and run from that folder, or use a repository checkout."</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="install-packages" class="level3">
+<h3 class="anchored" data-anchor-id="install-packages">Install Packages</h3>
+<p><code>pacman::p_load()</code> installs missing packages and loads them in one step.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(pacman)) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(RSQLite, DBI, data.table, lubridate, arrow, knitr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><code>RSQLite</code> and <code>DBI</code>: Connect to SQLite databases</li>
+<li><code>data.table</code>: Fast data manipulation</li>
+<li><code>lubridate</code>: Parse and manipulate timestamps</li>
+<li><code>arrow</code>: Read and write Parquet files</li>
+<li><code>knitr</code>: Format tables for display</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why data.table instead of tidyverse?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Raw WiFi data often contains millions of rows. <code>data.table</code> is significantly faster and more memory-efficient than <code>dplyr</code> for large datasets, making it the preferred choice for this pipeline.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="connect-and-query" class="level3">
+<h3 class="anchored" data-anchor-id="connect-and-query">Connect and Query</h3>
+<p>Connect to the database, query the exact eight-field contract, and convert the result to a <code>data.table</code>. The code renames <code>strength</code> to <code>rssi</code> only within the analysis session.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>conn <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">SQLite</span>(), <span class="st">"path/to/your/database.sqlite"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>wifi_data <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(conn,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"SELECT timestamp, type, subtype, strength,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">          source_address, source_address_randomized,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">          channel, sensor_name</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">   FROM packets"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>wifi_data <span class="ot">&lt;-</span> <span class="fu">as.data.table</span>(wifi_data)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(wifi_data, <span class="st">"strength"</span>, <span class="st">"rssi"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Here are the first few rows:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 3%">
+<col style="width: 24%">
+<col style="width: 18%">
+<col style="width: 5%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">timestamp</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">subtype</th>
+<th style="text-align: right;">rssi</th>
+<th style="text-align: left;">source_address</th>
+<th style="text-align: right;">source_address_randomized</th>
+<th style="text-align: right;">channel</th>
+<th style="text-align: left;">sensor_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">2024-01-15T00:00:00.110000Z</td>
+<td style="text-align: left;">data</td>
+<td style="text-align: left;">qos-data</td>
+<td style="text-align: right;">-46</td>
+<td style="text-align: left;">c463ebe40642f502c23f466edb4dfde5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024-01-15T00:00:00.120000Z</td>
+<td style="text-align: left;">management</td>
+<td style="text-align: left;">probe-request</td>
+<td style="text-align: right;">-66</td>
+<td style="text-align: left;">20bb0f1ddb10c9b71fa916d5a7d078c6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2024-01-15T00:00:00.610000Z</td>
+<td style="text-align: left;">data</td>
+<td style="text-align: left;">qos-data</td>
+<td style="text-align: right;">-48</td>
+<td style="text-align: left;">c463ebe40642f502c23f466edb4dfde5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2024-01-15T00:00:00.720000Z</td>
+<td style="text-align: left;">management</td>
+<td style="text-align: left;">probe-request</td>
+<td style="text-align: right;">-68</td>
+<td style="text-align: left;">20bb0f1ddb10c9b71fa916d5a7d078c6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A01</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2024-01-15T00:00:01.120000Z</td>
+<td style="text-align: left;">management</td>
+<td style="text-align: left;">probe-request</td>
+<td style="text-align: right;">-66</td>
+<td style="text-align: left;">20bb0f1ddb10c9b71fa916d5a7d078c6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">A01</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="filter-by-time" class="level3">
+<h3 class="anchored" data-anchor-id="filter-by-time">Filter by Time</h3>
+<p>Subset the data to your <strong>period of interest</strong>. Here we extract the first three minutes of the synthetic fixture in UTC:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2024-01-15 00:00:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2024-01-15 00:03:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>wifi_data_filtered_time <span class="ot">&lt;-</span> wifi_data[</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">between</span>(<span class="fu">ymd_hms</span>(timestamp, <span class="at">tz =</span> <span class="st">"UTC"</span>), start_date, end_date)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="filter-by-frame-type" class="level3">
+<h3 class="anchored" data-anchor-id="filter-by-frame-type">Filter by Frame Type</h3>
+<p>Stored observations can include management and data frames. The maintained default excludes the exact subtypes <code>beacon</code> and <code>probe-response</code>, which are commonly emitted by fixed infrastructure. Remaining persistent sources are handled by the stationary-identifier filter in the next chapter. The synthetic fixture contains <code>probe-request</code> and <code>qos-data</code> observations, so this particular demonstration does not lose a row at this stage.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>excluded_subtypes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"beacon"</span>, <span class="st">"probe-response"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>wifi_data_filtered_frame <span class="ot">&lt;-</span> wifi_data_filtered_time[</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">tolower</span>(subtype) <span class="sc">%in%</span> excluded_subtypes</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Frame type distribution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Probe requests are a small fraction of all WiFi traffic. The table below shows frame type distribution from a month-long campus deployment. Probe requests account for only 2.6% of packets, while responses and data frames dominate:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Subtype</th>
+<th>Count</th>
+<th>Proportion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Management</td>
+<td>probe-request</td>
+<td>714,353</td>
+<td>2.6%</td>
+</tr>
+<tr class="even">
+<td>Management</td>
+<td>probe-response</td>
+<td>9,532,383</td>
+<td>35.3%</td>
+</tr>
+<tr class="odd">
+<td>Management</td>
+<td>authentication</td>
+<td>352,856</td>
+<td>1.3%</td>
+</tr>
+<tr class="even">
+<td>Data</td>
+<td>null</td>
+<td>8,716,923</td>
+<td>32.3%</td>
+</tr>
+<tr class="odd">
+<td>Data</td>
+<td>qos-data</td>
+<td>4,875,257</td>
+<td>18.1%</td>
+</tr>
+<tr class="even">
+<td>Data</td>
+<td>qos-null</td>
+<td>2,253,010</td>
+<td>8.4%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<section id="filter-by-signal-strength" class="level3">
+<h3 class="anchored" data-anchor-id="filter-by-signal-strength">Filter by Signal Strength</h3>
+<p>Received signal strength (RSSI) is a noisy proximity indicator rather than a direct distance measurement: device hardware, body shielding, and the surrounding environment all affect it. This walkthrough retains observations between <strong>-80 and -30 dBm</strong>, matching the maintained default. The bounds exclude very weak observations and unusually strong signals that may come from equipment placed beside a sensor; they are analytical parameters that should be calibrated and reported for each deployment.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wifi_data_filtered_strength <span class="ot">&lt;-</span> wifi_data_filtered_frame[<span class="fu">between</span>(rssi, <span class="sc">-</span><span class="dv">80</span>, <span class="sc">-</span><span class="dv">30</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="aggregate-by-interval" class="level3">
+<h3 class="anchored" data-anchor-id="aggregate-by-interval">Aggregate by Interval</h3>
+<p>A source can produce multiple stored observations per second. We collapse these into <strong>one record per retained pseudonymous identifier, sensor, and UTC second</strong>, keeping the <strong>median signal strength</strong> and <strong>observation count</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>wifi_data_filtered_strength[, timestamp <span class="sc">:</span><span class="er">=</span> <span class="fu">floor_date</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ymd_hms</span>(timestamp, <span class="at">tz =</span> <span class="st">"UTC"</span>), <span class="at">unit =</span> <span class="st">"second"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>aggregated_data <span class="ot">&lt;-</span> wifi_data_filtered_strength[, .(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">rssi_median =</span> <span class="fu">median</span>(rssi),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">packet_count =</span> .N</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>), by <span class="ot">=</span> .(sensor_name, source_address, source_address_randomized, timestamp)]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">setcolorder</span>(aggregated_data, <span class="fu">c</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"timestamp"</span>, <span class="st">"source_address"</span>, <span class="st">"sensor_name"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"source_address_randomized"</span>, <span class="st">"rssi_median"</span>, <span class="st">"packet_count"</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">setorder</span>(aggregated_data, timestamp, source_address, sensor_name)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(aggregated_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             timestamp                   source_address sensor_name
+                &lt;POSc&gt;                           &lt;char&gt;      &lt;char&gt;
+1: 2024-01-15 00:00:00 20bb0f1ddb10c9b71fa916d5a7d078c6         A01
+2: 2024-01-15 00:00:00 c463ebe40642f502c23f466edb4dfde5         A01
+3: 2024-01-15 00:00:01 20bb0f1ddb10c9b71fa916d5a7d078c6         A01
+4: 2024-01-15 00:00:02 20bb0f1ddb10c9b71fa916d5a7d078c6         A01
+5: 2024-01-15 00:00:03 20bb0f1ddb10c9b71fa916d5a7d078c6         A01
+6: 2024-01-15 00:00:04 20bb0f1ddb10c9b71fa916d5a7d078c6         A01
+   source_address_randomized rssi_median packet_count
+                       &lt;int&gt;       &lt;num&gt;        &lt;int&gt;
+1:                         0         -67            2
+2:                         0         -47            2
+3:                         0         -67            2
+4:                         0         -67            2
+5:                         0         -67            2
+6:                         0         -67            2</code></pre>
+</div>
+</div>
+</section>
+<section id="save-and-close" class="level3">
+<h3 class="anchored" data-anchor-id="save-and-close">Save and Close</h3>
+<p>Write the one-second result to Parquet. The next chapter reads the complete, preverified <code>01_aggregated_1second.parquet</code> included in the same synthetic archive.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_parquet</span>(aggregated_data, <span class="st">"01_aggregated_1second.parquet"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbDisconnect</span>(conn)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="pipeline-summary" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="pipeline-summary"><span class="header-section-number">5.3</span> Pipeline Summary</h2>
+<p>Each step has a distinct purpose. The time filter defines the analysis period; the subtype and RSSI filters enforce declared inclusion rules; and aggregation compresses multiple observation rows without changing the identifier scope. A filter can legitimately remove no rows in a deliberately small synthetic example.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Step =</span> <span class="fu">c</span>(<span class="st">"Initial"</span>, <span class="st">"After Time Filter"</span>, <span class="st">"After Frame Filter"</span>, <span class="st">"After Strength Filter"</span>, <span class="st">"After Aggregation"</span>),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Records =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(wifi_data), <span class="fu">nrow</span>(wifi_data_filtered_time), <span class="fu">nrow</span>(wifi_data_filtered_frame), <span class="fu">nrow</span>(wifi_data_filtered_strength), <span class="fu">nrow</span>(aggregated_data)),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Distinct_Identifiers =</span> <span class="fu">c</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">unique</span>(wifi_data<span class="sc">$</span>source_address)),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">unique</span>(wifi_data_filtered_time<span class="sc">$</span>source_address)),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">unique</span>(wifi_data_filtered_frame<span class="sc">$</span>source_address)),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">unique</span>(wifi_data_filtered_strength<span class="sc">$</span>source_address)),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(<span class="fu">unique</span>(aggregated_data<span class="sc">$</span>source_address))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(summary_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                    Step Records Distinct_Identifiers
+                  &lt;char&gt;   &lt;int&gt;                &lt;int&gt;
+1:               Initial    1396                    5
+2:     After Time Filter     538                    4
+3:    After Frame Filter     538                    4
+4: After Strength Filter     538                    4
+5:     After Aggregation     269                    4</code></pre>
+</div>
+</div>
+</section>
+<section id="automate-the-pipeline" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="automate-the-pipeline"><span class="header-section-number">5.4</span> Automate the Pipeline</h2>
+<p>The maintained collector creates <strong>one database file per service run</strong>, so processing many sensors and sessions by hand quickly becomes impractical. For multi-day work, define bounded daily sessions, then stop, verify, and transfer each database before the next session begins. The pipeline command shown above is the default automated route; the helper below exposes the same first-stage logic for teaching.</p>
+<section id="single-database" class="level3">
+<h3 class="anchored" data-anchor-id="single-database">Single Database</h3>
+<p>The <code>aggregate_data()</code> function takes a database path, time range, and aggregation interval, then writes the result to a Parquet file.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>aggregate_data <span class="ot">&lt;-</span> <span class="cf">function</span>(db_path, start_date, end_date, <span class="at">interval =</span> <span class="st">"second"</span>, <span class="at">output_suffix =</span> <span class="st">"_1second.parquet"</span>) {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  conn <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(<span class="fu">SQLite</span>(), db_path)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  wifi_data <span class="ot">&lt;-</span> <span class="fu">dbGetQuery</span>(conn, <span class="st">"SELECT timestamp, type, subtype, strength, source_address, source_address_randomized, channel, sensor_name FROM packets"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setDT</span>(wifi_data)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setnames</span>(wifi_data, <span class="st">"strength"</span>, <span class="st">"rssi"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  wifi_data <span class="ot">&lt;-</span> wifi_data[<span class="fu">between</span>(<span class="fu">ymd_hms</span>(timestamp, <span class="at">tz =</span> <span class="st">"UTC"</span>), start_date, end_date)]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  wifi_data <span class="ot">&lt;-</span> wifi_data[<span class="sc">!</span><span class="fu">tolower</span>(subtype) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"beacon"</span>, <span class="st">"probe-response"</span>)]</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  wifi_data <span class="ot">&lt;-</span> wifi_data[<span class="fu">between</span>(rssi, <span class="sc">-</span><span class="dv">80</span>, <span class="sc">-</span><span class="dv">30</span>)]</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  wifi_data[, timestamp <span class="sc">:</span><span class="er">=</span> <span class="fu">floor_date</span>(<span class="fu">ymd_hms</span>(timestamp, <span class="at">tz =</span> <span class="st">"UTC"</span>), <span class="at">unit =</span> interval)]</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  aggregated_data <span class="ot">&lt;-</span> wifi_data[, .(<span class="at">rssi_median =</span> <span class="fu">median</span>(rssi), <span class="at">packet_count =</span> .N), by <span class="ot">=</span> .(sensor_name, source_address, source_address_randomized, timestamp)]</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setcolorder</span>(aggregated_data, <span class="fu">c</span>(<span class="st">"timestamp"</span>, <span class="st">"source_address"</span>, <span class="st">"sensor_name"</span>, <span class="st">"source_address_randomized"</span>, <span class="st">"rssi_median"</span>, <span class="st">"packet_count"</span>))</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setorder</span>(aggregated_data, timestamp, source_address, sensor_name)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  output_path <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">.sqlite3$"</span>, output_suffix, db_path)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_parquet</span>(aggregated_data, output_path)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dbDisconnect</span>(conn)</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Run on a single file:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2024-01-15 00:00:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2024-01-15 00:03:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate_data</span>(database_path, start_date, end_date, <span class="at">interval =</span> <span class="st">"second"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="multiple-databases" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-databases">Multiple Databases</h3>
+<p>Use <code>purrr::map()</code> to apply the function across verified databases. Each file produces a corresponding Parquet file.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(purrr)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>db_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">dirname</span>(database_path), <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.sqlite3$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(db_files)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2024-01-15 00:00:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2024-01-15 00:03:00"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(db_files, <span class="sc">~</span><span class="fu">aggregate_data</span>(.x, start_date, end_date, <span class="at">interval =</span> <span class="st">"second"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/urbanjuhyeon\.github\.io\/urban-wifi-sensing-toolkit\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./2-4-deployment.html" class="pagination-link" aria-label="Validate and Deploy">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Validate and Deploy</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./3-2-cleaning.html" class="pagination-link" aria-label="Cleaning">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cleaning</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

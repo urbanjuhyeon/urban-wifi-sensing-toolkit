@@ -1,0 +1,267 @@
+---
+number-sections: true
+number-depth: 2
+---
+
+# Cleaning {#sec-cleaning}
+
+The aggregated data still contains observations that can distort pedestrian-oriented counts. **Locally administered source addresses** are often associated with address randomization and cannot be assumed to provide a stable identifier, while **stationary sources** such as access points, fixed desktops, and IoT equipment add non-pedestrian signals.
+
+This chapter applies two conservative filters: first excluding locally administered source addresses, then excluding identifiers that remain at one sensor for hours. The result is a dataset of **retained pseudonymous identifiers** for the subsequent analytical steps.
+
+```{mermaid}
+%%| fig-cap: "From aggregated records to cleaned data"
+%%| fig-align: center
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e8f4f8', 'primaryTextColor': '#1a1a1a', 'primaryBorderColor': '#5c9ead', 'lineColor': '#5c9ead', 'secondaryColor': '#f0f7e6', 'tertiaryColor': '#fff5e6'}}}%%
+flowchart LR
+    A[Aggregated<br/>1-Second Records<br/>Parquet] -->|load| B[Combined Data]
+
+    subgraph C[Cleaning]
+        direction TB
+        C1[Remove Locally Administered<br/>Source Addresses] --> C2[Remove Stationary<br/>Identifiers]
+    end
+
+    B --> C
+    C --> D[Cleaned Data]
+
+    style A fill:#e8f4f8,stroke:#5c9ead
+    style B fill:#f0f7e6,stroke:#7cb342
+    style C fill:#fff5e6,stroke:#f9a825
+    style D fill:#fce4ec,stroke:#c2185b
+```
+
+## Load Data
+
+::: {.callout-note title="Sample data"}
+Download the same [synthetic tutorial archive](downloads/urban-wifi-synthetic-pipeline.zip) used in the Aggregation chapter, create an empty folder named `urban-wifi-synthetic-pipeline`, and extract the ZIP into it. Within that extracted folder, `workflow > ch3_tutorial > maintained_pipeline > 01_aggregated_1second.parquet` is the verified output of the synthetic eight-field SQLite fixture.
+:::
+
+```{r}
+#| label: tutorial-path-cleaning
+one_second_relative <- file.path(
+  "workflow", "ch3_tutorial", "maintained_pipeline",
+  "01_aggregated_1second.parquet"
+)
+one_second_candidates <- file.path(
+  c(".", "urban-wifi-synthetic-pipeline", ".."), one_second_relative
+)
+one_second_path <- one_second_candidates[file.exists(one_second_candidates)][1]
+if (is.na(one_second_path)) {
+  stop("Extract the ZIP into a folder named urban-wifi-synthetic-pipeline and run from that folder, or use a repository checkout.")
+}
+```
+
+### Install Packages
+
+`pacman::p_load()` installs missing packages and loads them in one step.
+
+```{r}
+#| message: false
+#| warning: false
+if (!require(pacman)) install.packages("pacman")
+pacman::p_load(arrow, data.table)
+```
+
+- `arrow`: Read and write Parquet files
+- `data.table`: Fast data manipulation
+
+### Read the One-Second Data
+
+The one-second file already combines the sensors represented in the input database. Its six columns are `timestamp`, `source_address`, `sensor_name`, `source_address_randomized`, `rssi_median`, and `packet_count`; frame type, subtype, and channel did their filtering work in the previous chapter and are no longer carried.
+
+```{r}
+wifi_data <- as.data.table(read_parquet(one_second_path))
+```
+
+Here are the first few rows:
+
+```{r}
+head(wifi_data, 5)
+```
+
+## Clean the Data
+
+### Remove Locally Administered Source Addresses
+
+Modern devices can use randomized source addresses during WiFi scanning, making repeated signals unsuitable as stable device identifiers. The stored field name is `source_address_randomized`, but its technical meaning is narrower: it records whether the **locally administered bit** of the observed source address was set before HMAC pseudonymization. A set bit is a useful conservative exclusion rule, not proof that a particular address was randomly generated. We retain only rows with a value of `0`. Devices observed only through locally administered addresses are therefore absent from downstream counts; @sec-randomization examines what the retained identifiers preserve.
+
+```{r}
+wifi_nonlocal <- wifi_data[source_address_randomized == 0L]
+```
+
+::: {.callout-note collapse="true"}
+## How the collector records the locally administered bit
+
+The collector checks the **second-lowest bit of the first byte** in the observed source address (equivalently, the second hexadecimal character is 2, 3, 6, 7, A, B, E, or F). If this bit is `1`, the address is locally administered rather than globally assigned by the manufacturer. Address randomization commonly sets this bit, but locally administered and randomized are not synonymous.
+
+```text
+Illustrative, non-observed address: A4:XX:XX:XX:XX:XX
+First byte: A4 = 10100100 in binary
+                       ^
+            Second-lowest bit = 0 → globally administered
+
+Illustrative, non-observed address: 4E:XX:XX:XX:XX:XX
+First byte: 4E = 01001110 in binary
+                       ^
+            Second-lowest bit = 1 → locally administered
+```
+
+The maintained collector derives and stores this flag before 32-character, deployment-scoped HMAC-SHA-256 pseudonymization. The bit cannot be reconstructed from the pseudonym itself, and the synthetic archive contains no observed address. Its two flagged identifiers are deliberately constructed test scenarios.
+:::
+
+
+### Remove Stationary Identifiers
+
+Stationary sources (access points, fixed desktops, IoT sensors) can be detected for hours at the same location. We identify them by **session duration**: how long one retained identifier remains at one sensor without a gap that starts a new session.
+
+#### What is a session?
+
+A **session** is a continuous period of detection. If an identifier disappears for more than 5 minutes and reappears, that counts as a new session.
+
+```
+Identifier A at Sensor 1:
+
+  |----detected----|   gap > 5min   |----detected----|
+       Session 1                         Session 2
+      (45 minutes)                      (30 minutes)
+```
+
+For this analytical rule, short sessions are more consistent with movement through the sensor area, whereas sessions lasting hours are treated as evidence of a stationary source.
+
+::: {.callout-note collapse="true"}
+## Why sessions instead of total detection time?
+
+Total detection time can mislead. A delivery worker passing the sensor 30 times in a day might accumulate over 2 hours of total detection and be wrongly flagged as stationary, even though each pass lasts only minutes.
+
+But a stationary device (like a fixed desktop or access point) stays **continuously** for hours at a time. By grouping detections into sessions, we can distinguish between:
+
+- **Short-presence pattern**: multiple sessions, each no longer than 2 hours
+- **Stationary pattern**: at least one session longer than 2 hours
+
+The 5-minute gap threshold reflects expected observation intervals: a gap longer than five minutes starts a new analytical session.
+:::
+
+#### Define thresholds
+
+```{r}
+session_gap <- 300  # 5-minute threshold; only a larger gap starts a new session
+duration_threshold <- 3600 * 2  # 2 hours: flag as stationary
+```
+
+- `session_gap`: A gap strictly greater than 5 minutes starts a new session
+- `duration_threshold`: A session strictly longer than 2 hours marks an identifier as stationary
+
+#### Calculate session duration
+
+The code below sorts by device and time, then calculates the time gap between consecutive detections, groups them into sessions, and computes each session's total duration.
+
+```{r}
+setorder(wifi_nonlocal, source_address, sensor_name, timestamp)
+
+wifi_nonlocal[, time_diff := as.numeric(
+  difftime(timestamp, shift(timestamp), units = "secs")
+), by = .(source_address, sensor_name)]
+
+wifi_nonlocal[, session := cumsum(
+  time_diff > session_gap | is.na(time_diff)
+), by = .(source_address, sensor_name)]
+
+session_summary <- wifi_nonlocal[, .(
+  first_timestamp = min(timestamp),
+  last_timestamp = max(timestamp),
+  session_duration = as.numeric(
+    difftime(max(timestamp), min(timestamp), units = "secs")
+  )
+), by = .(source_address, sensor_name, session)]
+```
+
+#### Filter out stationary devices
+
+Any retained identifier with at least one session strictly longer than 2 hours is flagged as stationary and removed from the dataset.
+
+```{r}
+stationary <- unique(
+  session_summary[session_duration > duration_threshold, source_address]
+)
+wifi_cleaned <- wifi_nonlocal[!source_address %in% stationary]
+```
+
+### Save the Result
+
+Drop the helper columns and write the cleaned one-second data to Parquet. This code is not evaluated during the book render, so rendering cannot overwrite a checked artifact.
+
+```{r}
+#| eval: false
+wifi_cleaned_output <- copy(wifi_cleaned)
+wifi_cleaned_output[, c("time_diff", "session") := NULL]
+write_parquet(wifi_cleaned_output, "02_cleaned_1second.parquet")
+```
+
+## Pipeline Summary
+
+The synthetic input contains 698 one-second records and five identifiers. The locally administered-bit filter removes 80 records from two deliberately flagged identifiers. The stationary filter then removes one identifier whose continuous session lasts 7,500 seconds, leaving 242 records from two retained identifiers. These values verify the calculation path; they are not empirical estimates of pedestrians or randomization prevalence.
+
+```{r}
+summary_table <- data.table(
+  Step = c("Initial", "After Locally Administered-Bit Filter", "After Stationary Filter"),
+  Records = c(nrow(wifi_data), nrow(wifi_nonlocal), nrow(wifi_cleaned)),
+  Distinct_Identifiers = c(
+    uniqueN(wifi_data$source_address),
+    uniqueN(wifi_nonlocal$source_address),
+    uniqueN(wifi_cleaned$source_address)
+  )
+)
+
+print(summary_table)
+```
+
+## Automate the Pipeline
+
+For larger deployments spanning days or weeks, use the maintained Parquet pipeline described in the previous chapter. The `clean_wifi_data()` function below wraps the same cleaning logic for a verified one-second Parquet input.
+
+```{r}
+clean_wifi_data <- function(input_path, session_gap = 300, duration_threshold = 7200) {
+  wifi_data <- as.data.table(read_parquet(input_path))
+
+  # Exclude locally administered source addresses
+  wifi_nonlocal <- wifi_data[source_address_randomized == 0L]
+
+  # Calculate sessions per retained identifier and sensor
+  setorder(wifi_nonlocal, source_address, sensor_name, timestamp)
+
+  wifi_nonlocal[, time_diff := as.numeric(
+    difftime(timestamp, shift(timestamp), units = "secs")
+  ), by = .(source_address, sensor_name)]
+
+  wifi_nonlocal[, session := cumsum(
+    time_diff > session_gap | is.na(time_diff)
+  ), by = .(source_address, sensor_name)]
+
+  sessions <- wifi_nonlocal[, .(
+    session_duration = as.numeric(
+      difftime(max(timestamp), min(timestamp), units = "secs")
+    )
+  ), by = .(source_address, sensor_name, session)]
+
+  # Remove identifiers with a session strictly longer than the threshold
+  stationary <- unique(
+    sessions[session_duration > duration_threshold, source_address]
+  )
+  wifi_cleaned <- wifi_nonlocal[!source_address %in% stationary]
+
+  # Drop helper columns
+  wifi_cleaned[, c("time_diff", "session") := NULL]
+
+  return(wifi_cleaned)
+}
+```
+
+Run on the one-second file:
+
+```{r}
+cleaned_data <- clean_wifi_data(one_second_path)
+
+head(cleaned_data)
+```
+
+Save the result as in the manual walkthrough: `write_parquet(cleaned_data, "02_cleaned_1second.parquet")`.

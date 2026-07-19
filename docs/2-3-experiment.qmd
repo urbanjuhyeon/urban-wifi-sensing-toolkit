@@ -1,0 +1,284 @@
+---
+number-sections: true
+number-depth: 2
+---
+
+# Configure the Experiment
+
+This chapter assigns the installed collector to one sensing experiment and
+one physical sensor. The example experiment is `unist26`, and its first Pi is
+`sensor-a01`. No monitor interface is opened and no packet is collected in
+this chapter.
+
+::: {.callout-tip title="Completion checkpoint"}
+At the end of this chapter, the configuration is valid and the Pi prints a
+three-adapter **plan**. The plan reports `planned`, not `missing`, because
+operational interface state is checked only after the interfaces are created
+in the next chapter.
+:::
+
+## Before You Begin
+
+Continue from Chapter 2.2 with the collector installed and both services still
+disabled and inactive. Connect the external USB WiFi adapters before previewing
+the interface plan. Keep the Pi's management connection on the hotspot or other
+known network.
+
+This chapter changes configuration files but does not start collection. If this
+Pi already has a deployment key for the current experiment, keep it. Do not
+delete or regenerate a key merely to repeat the walkthrough or make a recording.
+
+## Understand the Three Identities
+
+```text
+Experiment: unist26
+├── sensor-a01
+├── sensor-a02
+└── sensor-a03
+```
+
+- `deployment_id` identifies the experiment.
+- `sensor_name` identifies one Pi within that experiment.
+- `deployment.key` is one random 32-byte secret shared by every sensor in the
+  same experiment.
+
+The key is assigned to `unist26`; it is not calculated from the text
+`unist26`. The same key and the same observed source address produce the same
+HMAC pseudonym within this experiment. A later experiment receives a new key,
+so its pseudonyms cannot be joined to `unist26` by default.
+
+## Name the Experiment and Sensor
+
+The recording shows the experiment and sensor names being written and read
+back from the protected configuration.
+
+![](materials/ch2/deployment_sensor_identity_2026.mp4)
+
+From the `sensoradmin@sensor-a01:~ $` prompt, enter a temporary root shell:
+
+```bash
+sudo su
+```
+
+The prompt changes from `$` to `#`. That prompt means commands now have full
+administrative access, so paste only the blocks shown in this section and leave
+the root shell as soon as the key check below is done.
+
+Set the example names and update the installed configuration:
+
+```bash
+DEPLOYMENT_ID=unist26
+SENSOR_NAME=sensor-a01
+sed -i \
+  -e "s/\"deployment_id\": \"[^\"]*\"/\"deployment_id\": \"$DEPLOYMENT_ID\"/" \
+  -e "s/\"sensor_name\": \"[^\"]*\"/\"sensor_name\": \"$SENSOR_NAME\"/" \
+  /etc/urban-sensing/config.json
+```
+
+Read the values back and compare the sensor name with the hostname:
+
+```bash
+printf 'Experiment name: '
+grep '"deployment_id"' /etc/urban-sensing/config.json | cut -d'"' -f4
+printf 'Sensor name: '
+grep '"sensor_name"' /etc/urban-sensing/config.json | cut -d'"' -f4
+printf 'Hostname: '
+hostname
+```
+
+Expected output:
+
+```text
+Experiment name: unist26
+Sensor name: sensor-a01
+Hostname: sensor-a01
+```
+
+Matching `sensor_name` to the hostname is not mandatory, but it makes field
+identification and troubleshooting much clearer.
+
+## Create the Deployment HMAC Key
+
+![](materials/ch2/deployment_hmac_key_2026.mp4)
+
+First check whether this Pi already has a key:
+
+```bash
+if test -e /etc/urban-sensing/deployment.key; then
+  echo "Deployment key already exists: keep it"
+else
+  echo "No deployment key exists: create it once"
+fi
+```
+
+For the **first sensor of a new experiment only**, generate the key once,
+protect it, and inspect only its metadata:
+
+```bash
+printf 'Creating HMAC key for deployment: %s\n' "$DEPLOYMENT_ID"
+/opt/urban-sensing/venv/bin/urban-wifi-capture generate-key \
+  --output /etc/urban-sensing/deployment.key
+chown root:urban-sensing /etc/urban-sensing/deployment.key
+chmod 0640 /etc/urban-sensing/deployment.key
+stat -c '%s bytes, mode %a, owner %U:%G, %n' \
+  /etc/urban-sensing/deployment.key
+```
+
+Expected output ends with:
+
+```text
+32 bytes, mode 640, owner root:urban-sensing, /etc/urban-sensing/deployment.key
+```
+
+The command does not print the secret. Generate this key only once for the
+experiment. Every additional `unist26` sensor and every replacement SD card
+must receive a copy of this exact key; do not run `generate-key`
+independently on each sensor.
+
+If the first check reports that the key already exists, skip `generate-key` and
+verify only its metadata:
+
+```bash
+stat -c '%s bytes, mode %a, owner %U:%G, %n' \
+  /etc/urban-sensing/deployment.key
+```
+
+::: {.callout-important title="One experiment, one shared random key"}
+`unist26` is a readable label, not the key and not an input from which the key
+is derived. All sensors in `unist26` must use the same random key. A new
+experiment receives a new random key even if its name is similar.
+:::
+
+Leave the root shell:
+
+```bash
+exit
+```
+
+## Choose the Capture Channels
+
+Connect the external USB WiFi adapters. Their `wlan` numbers and MAC addresses
+may differ across boots and devices; the recording below is only an example of
+one Pi.
+
+![](materials/ch2/wifi_adapter_interface_check_2026.mp4)
+
+```bash
+ip link
+iw dev
+ip -j route show default
+```
+
+::: {.callout-important title="Do not register a MAC address or wlan number"}
+At runtime, the collector finds the single managed wireless interface carrying
+the default route and excludes it as the management connection. Every other
+managed wireless interface becomes a capture candidate. The number of capture
+candidates must equal the number of configured channels before any interface
+is changed.
+:::
+
+Write only the automatic interface-selection block into the existing protected
+configuration. This command parses and rewrites JSON, so it avoids editor
+keystrokes and rejects a malformed existing file instead of silently producing
+invalid JSON:
+
+```bash
+sudo /opt/urban-sensing/venv/bin/python -c \
+  'import json; from pathlib import Path; p=Path("/etc/urban-sensing/config.json"); c=json.loads(p.read_text()); c["interfaces"]={"mode":"auto","channels":[1,6,11]}; p.write_text(json.dumps(c, indent=2)+"\n")'
+```
+
+For one or two adapters, replace `[1,6,11]` with a channel list of the same
+length as the number of capture adapters, such as `[6]` or `[1,6]`. Choose the
+channels required by the approved study design; the three-adapter walkthrough
+uses all non-overlapping 2.4 GHz channels.
+
+Read back the resulting block:
+
+```bash
+sudo -u urban-sensing /opt/urban-sensing/venv/bin/python -c \
+  'import json; c=json.load(open("/etc/urban-sensing/config.json")); print(json.dumps(c["interfaces"], indent=2))'
+```
+
+The complete three-adapter configuration has this form:
+
+```json
+{
+  "sensor_name": "sensor-a01",
+  "deployment_id": "unist26",
+  "pseudonymization_key_file": "deployment.key",
+  "data_dir": "/var/lib/urban-sensing/data",
+  "queue_size": 50000,
+  "batch_size": 1000,
+  "interfaces": {
+    "mode": "auto",
+    "channels": [1, 6, 11]
+  }
+}
+```
+
+One adapter uses one channel, for example:
+
+```json
+"interfaces": {
+  "mode": "auto",
+  "channels": [6]
+}
+```
+
+Two adapters use a two-element channel list. In every case, the configuration
+records channel intent, not boot-dependent device names.
+
+## Validate and Preview the Mapping
+
+The final recording begins in Windows PowerShell, connects over SSH, validates
+the completed configuration, and previews the adapter mapping. No monitor
+interface is created during this recording.
+
+![](materials/ch2/experiment_validation_plan_2026.mp4)
+
+Validate the study-specific configuration:
+
+```bash
+sudo -u urban-sensing /opt/urban-sensing/venv/bin/urban-wifi-capture validate \
+  --config /etc/urban-sensing/config.json
+```
+
+The printed configuration should end with:
+
+```text
+configuration: VALID
+```
+
+If validation reports an error, stop here and correct the configuration. Do
+not continue to interface setup merely because some of the preceding values
+look correct.
+
+Then preview the automatic mapping without changing any interface:
+
+```bash
+sudo -u urban-sensing /opt/urban-sensing/venv/bin/urban-wifi-capture interfaces plan \
+  --config /etc/urban-sensing/config.json
+```
+
+Expected output on the walkthrough Pi is:
+
+```text
+ucap0: planned (physical=wlan0, channel=1)
+ucap1: planned (physical=wlan1, channel=6)
+ucap2: planned (physical=wlan3, channel=11)
+```
+
+The physical `wlan` numbers are discovered values, not values to copy. The
+important result is that the command finds exactly three capture candidates
+and assigns the configured channels.
+
+::: {.callout-tip title="What this checkpoint proves"}
+Together, `validate` and `interfaces plan` prove that the identity, key,
+channel list, adapter count, and management-interface exclusion agree without
+opening a monitor interface. The final lines say `planned`, not `present`,
+because Chapter 2.4 has not created the monitor interfaces yet.
+:::
+
+At this point the configuration is complete, but `ucap0`, `ucap1`, and
+`ucap2` do not exist yet. The next chapter creates them, performs a controlled
+capture, and verifies what the database actually stores.

@@ -1,0 +1,11 @@
+visitor_type,origin,destination,n_trips,rank,route
+First-time,cafeteria_dorm_side,TMB_back,406,1,cafeteria_dorm_side → TMB_back
+First-time,104_back,bus_station,320,2,104_back → bus_station
+First-time,cafeteria_dorm_side,gym_front,178,3,cafeteria_dorm_side → gym_front
+First-time,btw_201_102,bus_station,176,4,btw_201_102 → bus_station
+First-time,108_front_outside,lake,153,5,108_front_outside → lake
+Regular,cafeteria_dorm_side,TMB_back,3680,1,cafeteria_dorm_side → TMB_back
+Regular,108_front_outside,lake,3443,2,108_front_outside → lake
+Regular,104_back,bus_station,2854,3,104_back → bus_station
+Regular,cafeteria_dorm_side,parking_dorm,1701,4,cafeteria_dorm_side → parking_dorm
+Regular,cafeteria_dorm_side,gym_front,1600,5,cafeteria_dorm_side → gym_front

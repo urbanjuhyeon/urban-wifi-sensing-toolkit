@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools==80.10.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "urban-wifi-capture"
+version = "1.2.9"
+description = "Privacy-minimized Raspberry Pi WiFi capture for urban sensing research"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+dependencies = [
+  "dpkt==1.9.8"
+]
+
+[project.optional-dependencies]
+capture = [
+  "pcapy-ng==2.0.0"
+]
+
+[project.scripts]
+urban-wifi-capture = "urban_wifi_capture.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "B", "I"]

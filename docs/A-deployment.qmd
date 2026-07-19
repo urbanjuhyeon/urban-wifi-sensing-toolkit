@@ -1,0 +1,134 @@
+# Deployment Details {#sec-deployment}
+
+```{r}
+#| label: setup-deployment
+#| include: false
+library(tidyverse)
+library(sf)
+library(leaflet)
+```
+
+This appendix documents the two sensing deployments used throughout this toolkit: a university campus and a commercial district. Both were conducted in Ulsan, South Korea.
+
+
+## UNIST Campus
+
+### Site
+
+The Ulsan National Institute of Science and Technology (UNIST) campus occupies approximately 238,000 m² in a suburban area of Ulsan. The campus has a compact layout with dormitories, academic buildings, a library, a cafeteria, a gym, and a bus station connected by pedestrian paths. Most students live on campus, creating predictable daily circulation patterns between residential and academic areas.
+
+### Sensor Network
+
+Forty-one sensors were initially built (25 outdoors, 16 indoors). Of the 25 outdoor sensors, 24 positions enter the toolkit's main analyses. Sensors were placed at major intersections, building entrances, and along primary pedestrian routes, a median of about 85 meters apart (nearest-neighbor distances of 63--147 m), covering the main circulation areas of the campus. In the historical sensor-density experiment, detection stayed at 96% at about 100 m spacing and dropped sharply beyond about 150 m; its legacy error estimates are not used as validation results (@sec-location).
+
+```{r}
+#| label: fig-map-unist
+#| fig-cap: "**Interactive sensor map of the UNIST campus.** Click markers for sensor names."
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show code"
+
+sensors_unist <- st_read("../workflow/unist19_main/data/sensors.gpkg", quiet = TRUE) |>
+  filter(sensor_name != "comm_center") |>
+  st_transform(4326)
+
+coords_unist <- st_coordinates(sensors_unist) |>
+  as_tibble() |>
+  bind_cols(sensors_unist |> st_drop_geometry())
+
+leaflet(coords_unist, width = "100%", height = 400) |>
+  addProviderTiles(providers$Esri.WorldImagery,
+                   options = providerTileOptions(className = "bw-tiles")) |>
+  addCircleMarkers(
+    lng = ~X, lat = ~Y,
+    radius = 6, color = "white", weight = 1.5,
+    fillColor = "#FF5722", fillOpacity = 0.9,
+    label = ~sensor_name,
+    popup = ~paste0("<b>", sensor_name, "</b>")
+  )
+```
+
+### Deployment Period
+
+The deployment ran for 26 days, from October 21 to November 15, 2019. The first week (Oct 21--25) coincided with midterm examinations, when outdoor pedestrian movement was noticeably reduced. Regular classes resumed from October 28, establishing baseline weekday patterns. Two short events punctuated this baseline: campus admissions interviews on November 1--2 brought an influx of high-school students and parents, and the school festival on November 3--5 generated higher evening and weekend activity with food trucks and outdoor events. The final ten days (Nov 6--15) returned to regular class schedules.
+
+### Ground Truth
+
+To validate the sensing methods, 107 student volunteers were recruited from campus dormitories; 93 had paired GPS and WiFi records used in the localization analysis. Each participant installed a GPS logger application on their smartphone, which recorded GPS points at approximately one-second intervals and uploaded them to a server. Participants also provided their smartphone's MAC address for matching. To avoid behavioral changes, participants were not informed of the experiment's specific purpose. In the released localization tutorial, the matching fields in the WiFi and GPS files are replaced with the same 32-character, release- and dataset-specific HMAC-SHA-256 pseudonym; the original address is not distributed.
+
+Participant demographics: mean age 24.3 years (SD = 2.3), 86% undergraduate, 14% graduate; 76 Android users (71%), 31 iOS users (29%); 71 male (66%), 36 female (33%). Each participant signed a consent form for personal information collection under Korea's Personal Information Protection Act. The study was approved by UNIST Central Research Facilities.
+
+### Dataset Summary
+
+After preprocessing (removing locally administered addresses, stationary identifiers, and identifiers with fewer than 5 detections), the campus dataset contains approximately 15 million records from 25,603 distinct retained source identifiers, aggregated into 20-second windows. Locally administered addresses, used here as a conservative randomization proxy and excluded during preprocessing, accounted for 4.8% of detection events but 92.4% of unique observed source addresses (@sec-rand-validation).
+
+
+## Commercial District near the University of Ulsan {#sec-deploy-uou}
+
+### Site
+
+The study area is a mixed-use commercial district adjacent to the University of Ulsan, approximately 34,000 m² in size. It includes restaurants, cafes, retail shops, and services catering primarily to university students. The district features a designated pedestrian-priority street (approximately 400 meters) where vehicle access is restricted during certain hours, alongside conventional streets with mixed vehicle and pedestrian traffic.
+
+### Sensor Network
+
+Nineteen sensors were deployed at street intersections throughout the district. After excluding two dual-channel sensors co-located at the same positions (collecting 2.4 GHz and 5 GHz simultaneously), 17 unique sensor positions were used for analysis. Eight sensors were placed along the pedestrian-priority street and nine on surrounding conventional streets. Nearest-neighbor distances between sensors ranged from 46 to 95 meters, tighter than the campus deployment to match the denser urban fabric.
+
+```{r}
+#| label: fig-map-uou
+#| fig-cap: "**Interactive sensor map of the commercial district near the University of Ulsan.** Orange = ped-priority street, gray = conventional street."
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show code"
+#| warning: false
+
+sensors_uou <- read_csv("../workflow/uou20/output/sensors_coords.csv",
+                        show_col_types = FALSE) |>
+  transmute(
+    sensor_name = id_sensor,
+    street_type = case_match(
+      street_type,
+      "Pedestrian" ~ "Ped-priority",
+      "Regular"    ~ "Conventional"
+    ),
+    lng = x, lat = y
+  )
+
+pal <- colorFactor(c("#FF5722", "#999999"), levels = c("Ped-priority", "Conventional"))
+
+leaflet(sensors_uou, width = "100%", height = 400) |>
+  addProviderTiles(providers$Esri.WorldImagery,
+                   options = providerTileOptions(className = "bw-tiles")) |>
+  addCircleMarkers(
+    lng = ~lng, lat = ~lat,
+    radius = 6, color = "white", weight = 1.5,
+    fillColor = ~pal(street_type), fillOpacity = 0.9,
+    label = ~paste0(sensor_name, " (", street_type, ")"),
+    popup = ~paste0("<b>", sensor_name, "</b><br>", street_type)
+  ) |>
+  addLegend(
+    position = "bottomright", pal = pal,
+    values = ~street_type, title = "Street type",
+    opacity = 0.9
+  )
+```
+
+### Deployment Period
+
+The deployment ran for 9 valid days from July 11 (Saturday) to July 20 (Monday), 2020, including four weekend days and five weekdays. One day was excluded due to insufficient sensor uptime (below 80% coverage threshold). This deployment occurred after the rollout of Android 10 but before iOS 14 (released September 2020), during the transition to more widespread MAC randomization.
+
+### Dataset Summary
+
+At 20-second resolution, the dataset contains approximately 5.4 million sensor-level records from over 75,000 unique retained source identifiers, in the same release format as the campus dataset. After excluding identifiers observed overnight (0:00–4:00 AM) on 3 or more days, 39,906 identifiers had qualifying trajectories: 67.5% were Single-day observed and 32.5% Multi-day observed (@sec-casestudy-uou). The screen reduces signals plausibly originating from nearby dwellings but does not verify residence.
+
+::: {.callout-note collapse="true"}
+## Comparison with the 2019 pilot deployment
+
+A smaller pilot deployment of 10 sensors was conducted at the same site in July 2019 for 3 days (2 weekdays and 1 weekend day). The 2020 deployment expanded the sensor network to cover a wider area and included the pedestrian-priority street, which was the focus of the activity analysis in @sec-casestudy-uou.
+:::
+
+
+## Hardware Summary
+
+Both deployments used identical sensor hardware. Each unit was built around a Raspberry Pi 3 Model B+ fitted with three Ralink RT5370 USB WiFi adapters, one per non-overlapping 2.4 GHz channel (1, 6, and 11), so that probe requests across the entire band could be captured simultaneously in monitor mode. A 32 GB micro SD card stored the operating system and data, and a 20,000 mAh portable power bank provided roughly eight hours of continuous operation. All components were housed in a weatherproof plastic case for outdoor installation.
+
+A historical Python capture script ran as a systemd service during the 2019--2020 deployments. Its restricted SQLite records and identifier handling predated the maintained collector described in Part I. For public release, each retained historical identifier was replaced one-to-one downstream with a 32-character, release- and dataset-specific HMAC-SHA-256 pseudonym. This release transformation must not be interpreted as a claim that HMAC was used at capture. See [Part I: Building the Sensor](2-1-installation.qmd) for the maintained assembly and configuration instructions for new collections.

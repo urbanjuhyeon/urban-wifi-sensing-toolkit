@@ -1,0 +1,50 @@
+{
+  "workflow": "maintained five-metric synthetic smoke workflow",
+  "workflow_version": 2,
+  "purpose": "calculation-contract verification; not historical-result reproduction",
+  "input_20second": "workflow/ch3_tutorial/maintained_pipeline/03_analysis_20second.parquet",
+  "sensor_metadata": "workflow/ch3_tutorial/maintained_capture_fixture/synthetic_sensors.csv",
+  "fixture_manifest": "workflow/ch3_tutorial/maintained_capture_fixture/manifest.json",
+  "time": {
+    "stored_timestamps": "UTC with explicit Z",
+    "revisit_calendar": "Asia/Seoul"
+  },
+  "identifier_contract": {
+    "scheme": "synthetic-role-hmac-sha256-128-v1",
+    "scope": "deployment",
+    "lowercase_hex_characters": 32,
+    "key_status": "public, fixed, test-only; not for field collection",
+    "input_kind": "fully synthetic scenario role labels; not MAC addresses",
+    "original_address_mapping_exists": false
+  },
+  "parameters": {
+    "track_gap_seconds": 1800,
+    "visit_gap_seconds": 7200,
+    "revisit_min_windows": 2,
+    "activity_min_windows": 3,
+    "activity_max_duration_seconds": 7200,
+    "activity_distance_metres": 75,
+    "activity_continuity_gap_seconds": 600,
+    "activity_min_duration_seconds": 300
+  },
+  "definitions": {
+    "Location": "one strongest sensor per retained identifier and UTC window; ties use sensor_name ascending",
+    "Count": "distinct retained identifiers after Location assignment",
+    "Track": "ordered Location rows split by inactivity gap; OD requires at least two windows and different endpoints",
+    "Revisits": "distinct Asia/Seoul calendar dates among qualifying trajectories; observed identifier frequency, not people",
+    "Activities": "anchor-distance clusters split by continuity gap; stay requires minimum episode duration"
+  },
+  "fixture_expectations": {
+    "moving_identifier": "20bb0f1ddb10c9b71fa916d5a7d078c6",
+    "activity_identifier": "323545d4c59047e37c6d4955d7be420e",
+    "activity_packet_span_seconds": 420.6
+  },
+  "output_rows": {
+    "01_location.csv": 32,
+    "02_count.csv": 32,
+    "03_track_trajectories.csv": 3,
+    "03_track_od.csv": 1,
+    "04_revisits.csv": 2,
+    "05_activities.csv": 2
+  }
+}

@@ -1,0 +1,15 @@
+freq_type,origin,destination,n_trips,route
+One-time,cafeteria_dorm_side,TMB_back,1076,cafeteria_dorm_side -> TMB_back
+One-time,104_back,bus_station,833,104_back -> bus_station
+One-time,btw_201_102,bus_station,658,btw_201_102 -> bus_station
+One-time,cafeteria_dorm_side,gym_front,388,cafeteria_dorm_side -> gym_front
+One-time,108_front_outside,lake,372,108_front_outside -> lake
+One-time,cafeteria_dorm_side,parking_dorm,365,cafeteria_dorm_side -> parking_dorm
+One-time,bus_station,football_field_back,307,bus_station -> football_field_back
+Regular,cafeteria_dorm_side,TMB_back,11063,cafeteria_dorm_side -> TMB_back
+Regular,108_front_outside,lake,9853,108_front_outside -> lake
+Regular,104_back,bus_station,8934,104_back -> bus_station
+Regular,104_back,lake,4955,104_back -> lake
+Regular,108_front_outside,TMB_back,4522,108_front_outside -> TMB_back
+Regular,cafeteria_dorm_side,parking_dorm,4447,cafeteria_dorm_side -> parking_dorm
+Regular,202_front,TMB_back,4275,202_front -> TMB_back

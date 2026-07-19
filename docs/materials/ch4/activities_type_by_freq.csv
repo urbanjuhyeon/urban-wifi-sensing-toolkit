@@ -1,0 +1,9 @@
+freq_type,activity_type,n,pct
+One-time,Pass-through,58899,87.64471295497158
+One-time,Short stay,4820,7.172405583167167
+One-time,Medium stay,2926,4.354037082229696
+One-time,Long stay,557,0.8288443796315585
+Regular,Pass-through,1345394,85.50702255135432
+Regular,Short stay,104958,6.67064523325141
+Regular,Medium stay,90500,5.751761596155154
+Regular,Long stay,32579,2.0705706192391022

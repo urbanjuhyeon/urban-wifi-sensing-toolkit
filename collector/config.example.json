@@ -1,0 +1,12 @@
+{
+  "sensor_name": "CHANGE_ME",
+  "deployment_id": "CHANGE_ME_DEPLOYMENT",
+  "pseudonymization_key_file": "deployment.key",
+  "data_dir": "/var/lib/urban-sensing/data",
+  "queue_size": 50000,
+  "batch_size": 1000,
+  "interfaces": {
+    "mode": "auto",
+    "channels": [1, 6, 11]
+  }
+}

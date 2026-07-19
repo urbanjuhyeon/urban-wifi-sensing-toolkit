@@ -1,0 +1,3 @@
+group,n_devices,mean_dwell_hours,median_dwell_hours,mean_sensors,median_sensors,mean_detections,median_detections
+Outsider,3334,2.45771878072763,2.5,7.82603479304139,7,35.8311337732454,17
+Insider,6371,8.24598469332758,7.16666666666667,8.53555171872548,7,103.064354104536,33

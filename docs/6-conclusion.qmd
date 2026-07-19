@@ -1,0 +1,25 @@
+# When to Use This Toolkit {.unnumbered}
+
+The chapters above cover the full pipeline: building sensors, processing pseudonymized observations, and extracting the five metrics. This closing page summarizes what the toolkit is suited for, where its limits lie, and what responsible use requires. The scholarly treatment of these points is in the accompanying manuscript.
+
+## The toolkit works well for
+
+- **Temporal rhythms**: when activity rises and falls at a site, by hour, day type, or event
+- **Relative spatial comparison**: which locations record more or less activity, and how that ranking shifts
+- **Aggregate movement**: recurring sensor-to-sensor flows and inferred stays
+- **Rapid, low-cost deployment**: commodity hardware with no fixed power or network infrastructure
+
+## It does not support
+
+- Person-level tracking, identification, or behavioral profiling
+- Absolute visitor counts without independent calibration
+- Fine-grained positioning; estimates are sensor-level, on the order of tens of meters
+- Long-term cross-deployment profiling; pseudonyms are unlinkable across deployments by design
+
+## The limits behind those boundaries
+
+Three limits drive the lists above. First, MAC address randomization: the toolkit analyzes only the retained, non-randomized address stream, so every metric describes that sample rather than all devices or people. The mechanics, the validation, and the consequences for each metric are in [Appendix B](B-randomization.qmd). Second, coverage: sensors detect within a limited range. In the campus validation, detection held at about 100 m spacing and degraded sharply beyond 150 m, and areas between sensors go unobserved ([Appendix A](A-deployment.qmd)). Third, sporadic transmission: a device is not observed continuously even when it stays nearby, so entry and exit times carry minute-level uncertainty and episodes shorter than 5 minutes are not classified as inferred stays.
+
+## Responsible use
+
+Passive WiFi sensing observes device signals from passers-by who have not consented. The collector pseudonymizes every source address at capture and never stores the raw address, but pseudonymized, time-linked records are not anonymous. Before deploying, obtain ethics review and site permissions, set retention limits and access controls, validate the retained stream against the removed one (Appendix B), and treat any public data release as a separate decision with its own re-pseudonymization. The lasting requirement is transparency about what the data can and cannot support.

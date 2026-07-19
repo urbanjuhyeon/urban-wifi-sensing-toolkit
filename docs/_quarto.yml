@@ -1,0 +1,55 @@
+project:
+  type: book
+  output-dir: _book
+  resources:
+    - downloads/**
+
+book:
+  title: "WiFi Sensing for Urban Analytics: An Open-Source R Toolkit"
+  author: Juhyeon Park
+  search: true
+  sidebar:
+    collapse-level: 2
+    pinned: true
+  site-url: https://urbanjuhyeon.github.io/urban-wifi-sensing-toolkit/
+  repo-url: https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit/
+  date: last-modified
+  chapters:
+    - index.qmd
+    - part: "Building the Sensor"
+      chapters:
+        - 2-1-installation.qmd
+        - 2-2-configuration.qmd
+        - 2-3-experiment.qmd
+        - 2-4-deployment.qmd
+    - part: "Processing Data"
+      chapters:
+        - 3-1-aggregation.qmd
+        - 3-2-cleaning.qmd
+    - part: "Extracting Metrics"
+      chapters:
+        - 4-1-overview.qmd
+        - 4-2-location.qmd
+        - 4-3-count.qmd
+        - 4-4-track.qmd
+        - 4-5-revisits.qmd
+        - 4-6-activities.qmd
+    - part: "Demonstration"
+      chapters:
+        - 5-2-casestudy.qmd
+    - 6-conclusion.qmd
+  appendices:
+    - A-deployment.qmd
+    - B-randomization.qmd
+    - C-five-deployments.qmd
+
+bibliography: ../manuscript/toolkit-wifi.bib
+csl: nature.csl
+
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    css: custom.css
+    number-depth: 2
+
+editor: source

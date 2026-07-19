@@ -1,0 +1,4 @@
+"source_address","trajectory_id","start_utc","end_utc","duration_seconds","n_windows","origin","destination","is_od"
+"20bb0f1ddb10c9b71fa916d5a7d078c6",1,"2024-01-15T00:00:00Z","2024-01-15T00:02:20Z",140,8,"A01","A02",1
+"20bb0f1ddb10c9b71fa916d5a7d078c6",2,"2024-01-16T00:00:00Z","2024-01-16T00:00:20Z",20,2,"A01","A02",1
+"323545d4c59047e37c6d4955d7be420e",1,"2024-01-15T00:10:00Z","2024-01-15T00:17:00Z",420,22,"A02","A02",0

@@ -1,0 +1,133 @@
+/* Import JetBrains Mono font */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* Apply JetBrains Mono for code, D2Coding for Korean fallback */
+code, pre, .sourceCode {
+  font-family: 'JetBrains Mono', 'D2Coding', 'D2CodingLigature', monospace !important;
+  font-variant-ligatures: normal;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+/* Ensure ligatures work in code cells */
+div.sourceCode pre code {
+  font-family: 'JetBrains Mono', 'D2Coding', 'D2CodingLigature', monospace !important;
+  font-variant-ligatures: normal;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+/* Table styling: dark header, horizontal lines between rows */
+.table,
+table {
+  border-collapse: collapse !important;
+  border-top: 2px solid #000 !important;
+  border-bottom: 2px solid #000 !important;
+}
+
+.table thead th,
+table thead th {
+  background-color: #4a4a4a !important;
+  color: #ffffff !important;
+  font-weight: normal !important;
+  border-bottom: 2px solid #000 !important;
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.3rem !important;
+}
+
+.table tbody td,
+table tbody td {
+  padding-top: 0.3rem !important;
+  padding-bottom: 0.3rem !important;
+  border-bottom: 1px solid #ddd !important;
+}
+
+.table tbody tr:last-child td,
+table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Footnoted tables: content-sized columns, not stretched to full width */
+table.rand-table {
+  width: auto !important;
+  table-layout: auto !important;
+}
+
+/* satellite tiles in grayscale, matching the static site maps */
+.bw-tiles {
+  filter: grayscale(100%);
+}
+
+/* Center figure captions to match centered figures */
+figcaption,
+.figure-caption,
+.quarto-float-caption {
+  text-align: center !important;
+}
+
+table.rand-table th,
+table.rand-table td {
+  white-space: nowrap;
+  padding-left: 0 !important;
+  padding-right: 1.6rem !important;
+}
+
+/* first column may hold long deployment labels: allow wrapping */
+table.rand-table td:first-child,
+table.rand-table th:first-child {
+  white-space: normal;
+}
+
+table.rand-table th:last-child,
+table.rand-table td:last-child {
+  padding-right: 0.5rem !important;
+}
+
+/* the notes row must span naturally, never forcing column widths */
+table.rand-table tfoot td.rand-notes {
+  white-space: normal;
+}
+
+/* Footnoted tables: caption as plain title, superscript notes row */
+table.rand-table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 400;
+  font-size: 1.05em;
+  color: inherit;
+  padding-bottom: 0.45rem;
+}
+
+table.rand-table caption .tbl-label {
+  font-weight: 700;
+}
+
+table.rand-table {
+  border-bottom: none !important;
+}
+
+table.rand-table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+table.rand-table sup {
+  font-weight: 600;
+  padding-left: 1px;
+}
+
+table.rand-table tfoot td.rand-notes {
+  border-bottom: none !important;
+  border-top: 1px solid #000 !important;
+  padding-top: 0.4rem !important;
+  font-size: 0.76em;
+  line-height: 1.4;
+  color: #666;
+  text-align: left;
+}
+
+table.rand-table tfoot td.rand-notes sup {
+  font-weight: 700;
+  margin-left: 0.35em;
+}
+
+table.rand-table tfoot td.rand-notes sup:first-child {
+  margin-left: 0;
+}

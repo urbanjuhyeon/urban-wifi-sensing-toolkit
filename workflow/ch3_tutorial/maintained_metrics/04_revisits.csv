@@ -1,0 +1,3 @@
+"source_address","n_qualifying_trajectories","n_observed_local_dates","observed_local_dates","first_local_date","last_local_date","revisit_class"
+"20bb0f1ddb10c9b71fa916d5a7d078c6",2,2,"2024-01-15;2024-01-16","2024-01-15","2024-01-16","Multi-day observed"
+"323545d4c59047e37c6d4955d7be420e",1,1,"2024-01-15","2024-01-15","2024-01-15","Single-day observed"

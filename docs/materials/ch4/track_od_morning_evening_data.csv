@@ -1,0 +1,23 @@
+time_period,origin,destination,n_trips
+1_Morning (7-10),btw_201_102,bus_station,1211
+1_Morning (7-10),104_back,bus_station,808
+1_Morning (7-10),bus_station,104_back,749
+1_Morning (7-10),bridge_main_engineer,bus_station,532
+1_Morning (7-10),football_field_front,bus_station,530
+1_Morning (7-10),parking_dorm,bus_station,495
+1_Morning (7-10),bus_station,btw_201_102,470
+1_Morning (7-10),dorm_front,parking_dorm,459
+1_Morning (7-10),parking_dorm,112_side,453
+1_Morning (7-10),parking_dorm,108_front_outside,445
+2_Evening (17-20),104_back,bus_station,2658
+2_Evening (17-20),btw_201_102,bus_station,1824
+2_Evening (17-20),108_back,bus_station,865
+2_Evening (17-20),dorm_front,parking_dorm,820
+2_Evening (17-20),bridge_main_engineer,bus_station,783
+2_Evening (17-20),football_field_front,bus_station,642
+2_Evening (17-20),108_front_outside,bus_station,641
+2_Evening (17-20),cafeteria_dorm_side,gym_front,482
+2_Evening (17-20),bus_station,btw_201_102,468
+2_Evening (17-20),203_front,football_field_back,457
+2_Evening (17-20),bus_station,104_back,438
+2_Evening (17-20),TMB_back,parking_dorm,432

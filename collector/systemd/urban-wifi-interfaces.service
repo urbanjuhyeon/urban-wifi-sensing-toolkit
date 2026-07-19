@@ -1,0 +1,40 @@
+[Unit]
+Description=Prepare monitor interfaces for urban WiFi sensing
+Before=urban-wifi-capture.service
+Wants=network-online.target NetworkManager.service
+After=network-online.target NetworkManager.service
+
+[Service]
+Type=oneshot
+SupplementaryGroups=urban-sensing
+TimeoutStartSec=90
+ExecStart=/opt/urban-sensing/venv/bin/urban-wifi-capture interfaces up --config /etc/urban-sensing/config.json
+ExecStop=/opt/urban-sensing/venv/bin/urban-wifi-capture interfaces down --config /etc/urban-sensing/config.json
+RemainAfterExit=yes
+CapabilityBoundingSet=CAP_NET_ADMIN
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadOnlyPaths=/etc/urban-sensing
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+ProtectClock=true
+ProtectHostname=true
+ProtectProc=invisible
+ProcSubset=pid
+RestrictAddressFamilies=AF_UNIX AF_NETLINK
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+SystemCallArchitectures=native
+SystemCallFilter=~@clock @cpu-emulation @debug @module @mount @obsolete @raw-io @reboot @swap
+IPAddressDeny=any
+LimitCORE=0
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+event_type,origin,destination,n_trips,route
+Campus Member,104_back,bus_station,1102,104_back → bus_station
+Campus Member,cafeteria_dorm_side,TMB_back,833,cafeteria_dorm_side → TMB_back
+Campus Member,108_front_outside,lake,726,108_front_outside → lake
+Campus Member,dorm_front,parking_dorm,428,dorm_front → parking_dorm
+Campus Member,cafeteria_dorm_side,parking_dorm,407,cafeteria_dorm_side → parking_dorm
+Interview Outsider,btw_201_102,bus_station,192,btw_201_102 → bus_station
+Interview Outsider,203_front,bus_station,181,203_front → bus_station
+Interview Outsider,203_front,football_field_front,173,203_front → football_field_front
+Interview Outsider,cafeteria_dorm_side,TMB_back,171,cafeteria_dorm_side → TMB_back
+Interview Outsider,202_front,football_field_front,130,202_front → football_field_front

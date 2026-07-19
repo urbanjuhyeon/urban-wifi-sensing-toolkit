@@ -1,0 +1,3 @@
+site,n_sensors,n_detections,det_pct_random,n_unique_macs,mac_pct_random,inflation
+UNIST campus (2019),24,107164098,4.6,2336961,92.4,20.1
+Commercial district (2020),17,46276238,22.3,4422402,96.7,4.3

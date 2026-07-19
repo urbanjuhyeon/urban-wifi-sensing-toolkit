@@ -1,0 +1,21 @@
+event_type,sensor_name,n,pct
+Campus Member,bus_station,61499,9.366409225834651
+Campus Member,dorm_front,57698,8.787510032881961
+Campus Member,cafeteria_dorm_side,52215,7.952439189693432
+Campus Member,gym_front,45674,6.956233027866662
+Campus Member,parking_dorm,39827,6.0657243245795325
+Campus Member,202_front,38594,5.877936188586197
+Campus Member,TMB_back,36802,5.605011338870012
+Campus Member,btw_201_102,35042,5.336960147184473
+Campus Member,203_front,32789,4.993824161464291
+Campus Member,bridge_main_engineer,31672,4.823703035832048
+Interview Outsider,203_front,16624,13.912112006561053
+Interview Outsider,btw_TMB_library,10315,8.632304821202915
+Interview Outsider,football_field_front,10187,8.5251855757241
+Interview Outsider,bus_station,10144,8.489200204196063
+Interview Outsider,btw_201_102,8910,7.456503728251865
+Interview Outsider,202_front,8555,7.159415195869213
+Interview Outsider,bridge_main_engineer,8419,7.045600997547973
+Interview Outsider,108_front_outside,7112,5.951813076916639
+Interview Outsider,gym_front,6317,5.286502138200564
+Interview Outsider,parking_sport,4981,4.168445013515436

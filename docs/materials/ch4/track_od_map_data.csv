@@ -1,0 +1,4 @@
+origin,destination,n_trips,prob
+btw_201_102,bus_station,10797,0.4186831084225221
+104_back,bus_station,9923,0.4440814499888118
+dorm_front,parking_dorm,5266,0.2016620074292498

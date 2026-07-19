@@ -1,0 +1,13 @@
+project:
+  output-dir: _book-anon
+  resources:
+    - downloads/urban-wifi-capture-anonymous.zip
+    - downloads/urban-wifi-capture-anonymous.sha256
+    - downloads/urban-wifi-synthetic-pipeline.zip
+    - downloads/urban-wifi-synthetic-pipeline.sha256
+
+book:
+  author: ""
+  site-url: ""
+  repo-url: ""
+  repo-actions: []

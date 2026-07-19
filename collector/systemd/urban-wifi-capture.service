@@ -1,0 +1,51 @@
+[Unit]
+Description=Privacy-minimized urban WiFi capture
+Documentation=file:///opt/urban-sensing/share/README.md
+Requires=urban-wifi-interfaces.service
+After=urban-wifi-interfaces.service time-sync.target
+Wants=time-sync.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=urban-sensing
+Group=urban-sensing
+ExecStart=/opt/urban-sensing/venv/bin/urban-wifi-capture capture --config /etc/urban-sensing/config.json
+Restart=on-failure
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=120
+LimitCORE=0
+UMask=0077
+StateDirectory=urban-sensing
+StateDirectoryMode=0700
+AmbientCapabilities=CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_RAW
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadOnlyPaths=/etc/urban-sensing
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectKernelLogs=true
+ProtectClock=true
+ProtectHostname=true
+ProtectProc=invisible
+ProcSubset=pid
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RestrictAddressFamilies=AF_UNIX AF_PACKET
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+SystemCallArchitectures=native
+SystemCallFilter=~@clock @cpu-emulation @debug @module @mount @obsolete @privileged @raw-io @reboot @resources @swap
+IPAddressDeny=any
+
+[Install]
+WantedBy=multi-user.target

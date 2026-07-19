@@ -1,0 +1,3 @@
+freq_type,n_visits,median_detections,mean_detections,median_sensors,mean_sensors,median_duration,mean_duration
+One-time,13354,4,14.91620488243223,3,4.494982776696121,0,68.41545604313315
+Regular,78944,59,108.73770014187272,10,10.042650486420754,650,692.5895571544386

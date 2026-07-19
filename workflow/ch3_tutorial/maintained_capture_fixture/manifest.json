@@ -1,0 +1,116 @@
+{
+  "database": "maintained_capture.sqlite3",
+  "database_sha256": "7f4e2da47dea3cedb030877814fdc69d13701f8b0350e77e9c8bb68a56bd1280",
+  "fixture_scope": {
+    "minimal_packets_fixture": true,
+    "no_hardware_capture_occurred": true,
+    "omitted_operational_tables": {
+      "capture_interface_summary": "omitted because no hardware capture occurred",
+      "capture_metadata": "omitted because no hardware capture occurred"
+    },
+    "operational_loss_counters_fabricated": false
+  },
+  "fixture_version": 2,
+  "identifier_contract": {
+    "algorithm": "HMAC-SHA-256 truncated to 128 bits",
+    "cross_deployment_linkage": "changing the deployment identifier or HMAC key changes the pseudonym",
+    "deployment_id": "SYNTHETIC_CH3_TEST_DEPLOYMENT",
+    "input_kind": "fully synthetic scenario role labels; not MAC addresses",
+    "key_is_public": true,
+    "key_is_secret": false,
+    "key_is_test_only": true,
+    "key_must_not_be_used_for_field_collection": true,
+    "lowercase_hex_characters": 32,
+    "public_test_key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "scheme": "synthetic-role-hmac-sha256-128-v1",
+    "scope": "deployment",
+    "security_notice": "PUBLIC TEST KEY; never use this value for field collection",
+    "within_deployment_linkage": "the same synthetic role has the same pseudonym across sensors and dates"
+  },
+  "metric_smoke_test_roles": {
+    "Activities": "activity_stay_retained",
+    "Count": "all non-stationary scenarios",
+    "Location": "moving_retained sensor overlap",
+    "Revisits": "moving_retained local_calendar_dates",
+    "Track": "moving_retained sensor transition"
+  },
+  "packet_columns": [
+    "timestamp",
+    "type",
+    "subtype",
+    "strength",
+    "source_address",
+    "source_address_randomized",
+    "channel",
+    "sensor_name"
+  ],
+  "privacy_boundary": {
+    "bssids_stored": false,
+    "destination_addresses_stored": false,
+    "frame_bytes_stored": false,
+    "fully_synthetic": true,
+    "identifiers_derived_only_from_scenario_labels": true,
+    "mac_addresses_used_as_identifier_inputs": false,
+    "original_address_mapping_exists": false,
+    "packet_payloads_stored": false,
+    "raw_mac_addresses_stored": false,
+    "ssids_stored": false
+  },
+  "role_aware_packet_contract_definition": "SHA-256 over insertion-order JSON packet rows after replacing source_address with its synthetic scenario role",
+  "role_aware_packet_contract_sha256": "2c2f5569d921e5dbfdc326584d62edd94a1cea171737f046306b971430178ed2",
+  "row_count": 1396,
+  "scenarios": {
+    "activity_stay_retained": {
+      "identifier": "323545d4c59047e37c6d4955d7be420e",
+      "randomized": 0,
+      "sensors": [
+        "A02"
+      ],
+      "span_seconds": 420.6
+    },
+    "moving_retained": {
+      "identifier": "20bb0f1ddb10c9b71fa916d5a7d078c6",
+      "local_calendar_dates": [
+        "2024-01-15",
+        "2024-01-16"
+      ],
+      "longest_session_seconds": 159.6,
+      "randomized": 0,
+      "sensors": [
+        "A01",
+        "A02"
+      ]
+    },
+    "randomized_visitors": {
+      "identifiers": [
+        "4a8c49fdc8f8854efc1cb92c05f2191f",
+        "ab65de5e3ba65aba108593f6e728d20d"
+      ],
+      "randomized": 1,
+      "sensors": [
+        "A01",
+        "A02"
+      ]
+    },
+    "stationary_over_two_hours": {
+      "identifier": "c463ebe40642f502c23f466edb4dfde5",
+      "randomized": 0,
+      "sensors": [
+        "A01"
+      ],
+      "span_seconds": 7500.5
+    }
+  },
+  "sensor_metadata": "synthetic_sensors.csv",
+  "sensor_metadata_sha256": "78ca7ced2b264a9abc80604ed08635c24cf5c00607c002b12bcc1594b4ac8ace",
+  "sensors": [
+    "A01",
+    "A02"
+  ],
+  "synthetic_coordinate_system": "local Cartesian metres; no geographic origin",
+  "time_range_utc": [
+    "2024-01-15T00:00:00.110000Z",
+    "2024-01-16T00:00:39.740000Z"
+  ],
+  "time_zone_for_local_calendar": "Asia/Seoul (UTC+09:00; no DST)"
+}

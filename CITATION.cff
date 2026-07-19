@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+title: "WiFi Sensing for Urban Analytics: An Open-Source R Toolkit"
+message: "If you use this software, please cite it using these metadata."
+type: software
+authors:
+  - given-names: Juhyeon
+    family-names: Park
+    affiliation: "Housing & Urban Finance Research Institute, Korea Housing & Urban Guarantee Corporation (HUG)"
+    orcid: "https://orcid.org/0000-0002-9562-5454"
+  - given-names: Jeongseob
+    family-names: Kim
+    affiliation: "Department of Civil, Urban, Earth, and Environmental Engineering, Ulsan National Institute of Science and Technology (UNIST)"
+version: "1.3.0"
+date-released: "2026-07-09"
+repository-code: "https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit"
+url: "https://urbanjuhyeon.github.io/urban-wifi-sensing-toolkit/"
+license: MIT
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.18831563"
+    description: "Zenodo concept DOI (resolves to latest version)"
+keywords:
+  - wifi sensing
+  - urban analytics
+  - pedestrian monitoring
+  - open source
+  - IoT
