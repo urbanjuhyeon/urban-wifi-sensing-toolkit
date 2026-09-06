@@ -7,9 +7,6 @@ authors:
     family-names: Park
     affiliation: "Housing & Urban Finance Research Institute, Korea Housing & Urban Guarantee Corporation (HUG)"
     orcid: "https://orcid.org/0000-0002-9562-5454"
-  - given-names: Jeongseob
-    family-names: Kim
-    affiliation: "Department of Civil, Urban, Earth, and Environmental Engineering, Ulsan National Institute of Science and Technology (UNIST)"
 version: "1.4.0"
 date-released: "2026-07-19"
 repository-code: "https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit"
