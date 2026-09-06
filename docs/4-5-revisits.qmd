@@ -27,6 +27,8 @@ This chapter uses the same UNIST campus dataset introduced in [Count](4-3-count.
 
 ### Load packages and data
 
+The code blocks below are displayed rather than executed when the book is rendered. `scripts/4-5-identity.R` runs the same steps end to end; it keeps the metric's former name, *identity*, in its filename.
+
 Load required packages using `pacman::p_load()`, which installs any missing packages automatically:
 
 ```{r}

@@ -19,7 +19,7 @@ The Ulsan National Institute of Science and Technology (UNIST) campus occupies a
 
 ### Sensor Network
 
-Forty-one sensors were initially built (25 outdoors, 16 indoors). Of the 25 outdoor sensors, 24 positions enter the toolkit's main analyses. Sensors were placed at major intersections, building entrances, and along primary pedestrian routes, a median of about 85 meters apart (nearest-neighbor distances of 63--147 m), covering the main circulation areas of the campus. In the historical sensor-density experiment, detection stayed at 96% at about 100 m spacing and dropped sharply beyond about 150 m; its legacy error estimates are not used as validation results (@sec-location).
+Forty-one sensors were initially built (25 outdoors, 16 indoors). Of the 25 outdoor sensors, 24 positions enter the toolkit's main analyses. Sensors were placed at major intersections, building entrances, and along primary pedestrian routes, a median of about 85 meters apart (nearest-neighbor distances of 63--147 m), covering the main circulation areas of the campus. In the historical sensor-density experiment, detection stayed at 96% at about 100 m spacing but fell to 78% at about 150 m; its legacy error estimates are not used as validation results (@sec-location).
 
 ```{r}
 #| label: fig-map-unist
@@ -56,7 +56,7 @@ The deployment ran for 26 days, from October 21 to November 15, 2019. The first 
 
 To validate the sensing methods, 107 student volunteers were recruited from campus dormitories; 93 had paired GPS and WiFi records used in the localization analysis. Each participant installed a GPS logger application on their smartphone, which recorded GPS points at approximately one-second intervals and uploaded them to a server. Participants also provided their smartphone's MAC address for matching. To avoid behavioral changes, participants were not informed of the experiment's specific purpose. In the released localization tutorial, the matching fields in the WiFi and GPS files are replaced with the same 32-character, release- and dataset-specific HMAC-SHA-256 pseudonym; the original address is not distributed.
 
-Participant demographics: mean age 24.3 years (SD = 2.3), 86% undergraduate, 14% graduate; 76 Android users (71%), 31 iOS users (29%); 71 male (66%), 36 female (33%). Each participant signed a consent form for personal information collection under Korea's Personal Information Protection Act. The study was approved by UNIST Central Research Facilities.
+Participant demographics: mean age 24.3 years (SD = 2.3), 86% undergraduate, 14% graduate; 76 Android users (71%), 31 iOS users (29%); 71 male (66%), 36 female (33%). Each participant signed a consent form for personal information collection under Korea's Personal Information Protection Act. The study was approved by the UNIST Institutional Review Board (IRB).
 
 ### Dataset Summary
 
@@ -131,4 +131,4 @@ A smaller pilot deployment of 10 sensors was conducted at the same site in July 
 
 Both deployments used identical sensor hardware. Each unit was built around a Raspberry Pi 3 Model B+ fitted with three Ralink RT5370 USB WiFi adapters, one per non-overlapping 2.4 GHz channel (1, 6, and 11), so that probe requests across the entire band could be captured simultaneously in monitor mode. A 32 GB micro SD card stored the operating system and data, and a 20,000 mAh portable power bank provided roughly eight hours of continuous operation. All components were housed in a weatherproof plastic case for outdoor installation.
 
-A historical Python capture script ran as a systemd service during the 2019--2020 deployments. Its restricted SQLite records and identifier handling predated the maintained collector described in Part I. For public release, each retained historical identifier was replaced one-to-one downstream with a 32-character, release- and dataset-specific HMAC-SHA-256 pseudonym. This release transformation must not be interpreted as a claim that HMAC was used at capture. See [Part I: Building the Sensor](2-1-installation.qmd) for the maintained assembly and configuration instructions for new collections.
+A historical Python capture script ran as a systemd service during the 2019--2020 deployments. It recorded observed addresses directly; each retained identifier was replaced with a release-specific HMAC-SHA-256 pseudonym before publication, and the original captures were destroyed. See [Part I: Building the Sensor](2-1-installation.qmd) for the maintained assembly and configuration instructions for new collections.

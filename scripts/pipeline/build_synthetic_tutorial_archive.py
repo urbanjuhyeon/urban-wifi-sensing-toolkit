@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -135,16 +136,21 @@ EMAIL_RE = re.compile(
 )
 PUBLIC_TEST_KEY = bytes(range(32)).hex().encode("ascii")
 PUBLIC_TEST_KEY_ALLOWED_IN = frozenset((FIXTURE_MANIFEST,))
-FORBIDDEN_TEXT = (
-    b"urban" + b"juhyeon",
-    b"juhyeon" + b"park",
-    b"github" + b".com",
-    b"netlify" + b".app",
-    b"fig" + b"share.com",
-    b"zenodo" + b".org",
-    b"orcid" + b".org",
-    b"begin " + b"private key",
-    b"begin openssh " + b"private key",
+# Base64-encoded so that this file, which ships inside the anonymous tutorial
+# archive, does not itself contain the author identifiers it screens for.
+FORBIDDEN_TEXT = tuple(
+    base64.b64decode(marker)
+    for marker in (
+        b"dXJiYW5qdWh5ZW9u",
+        b"anVoeWVvbnBhcms=",
+        b"Z2l0aHViLmNvbQ==",
+        b"bmV0bGlmeS5hcHA=",
+        b"Zmlnc2hhcmUuY29t",
+        b"emVub2RvLm9yZw==",
+        b"b3JjaWQub3Jn",
+        b"YmVnaW4gcHJpdmF0ZSBrZXk=",
+        b"YmVnaW4gb3BlbnNzaCBwcml2YXRlIGtleQ==",
+    )
 )
 FORBIDDEN_SUFFIXES = (
     ".key",

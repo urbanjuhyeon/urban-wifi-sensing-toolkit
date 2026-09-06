@@ -4,9 +4,9 @@ The preceding chapters demonstrated the five metrics on a university campus. Thi
 
 The figure below summarizes the main findings.
 
-![**Inferred-stay patterns in a commercial district near the University of Ulsan.** (a) Sensor map: fill color = inferred-stay ratio, size = trajectories observed; blue line = pedestrian-priority street; B = bus stops. (b) Per-sensor ratios grouped by street type. (c) Ratio by qualifying observation-day band and street type; diamonds mark each band's weighted mean; labels report the pedestrian-priority minus conventional difference.](materials/ch5/fig3_activities.png)
+![**Inferred-stay patterns in a commercial district near the University of Ulsan.** (a) Sensor map: fill color = inferred-stay ratio, size = trajectories observed; blue line = pedestrian-priority street; B = bus stops. (b) Per-sensor ratios grouped by street type. (c) Ratio by qualifying observation-day band and street type; diamonds mark each band's overall ratio; labels report the pedestrian-priority minus conventional difference.](materials/ch5/fig3_activities.png)
 
-The inferred-stay ratio, the share of trajectory–sensor pairs at which at least one inferred stay occurred, is 13.1% on pedestrian-priority streets and 6.1% on conventional streets. Sensor-level distributions overlap, but the aggregate contrast appears in both observation-day bands and is somewhat larger for single-day-observed identifiers (+8.4 pp) than for multi-day-observed identifiers (+6.2 pp).
+The inferred-stay ratio, the share of trajectory–sensor pairs at which at least one inferred stay occurred, is 13.1% on pedestrian-priority streets and 6.1% on conventional streets. Sensor-level distributions overlap, but the aggregate contrast appears in both observation-day bands and is larger for single-day-observed identifiers (+8.4 pp) than for multi-day-observed identifiers (+6.2 pp).
 
 The rest of this chapter walks through the analytical steps behind this figure.
 
@@ -159,7 +159,7 @@ freq_cross <- traj_sensor_freq |>
   )
 ```
 
-The pedestrian-priority contrast appears in both bands and is somewhat larger for single-day-observed identifiers (+8.4 pp vs. +6.2 pp). On conventional streets, the two ratios are similar (5.9% and 6.1%); on the pedestrian-priority street, they differ by 2.0 percentage points (14.3% and 12.3%).
+The pedestrian-priority contrast appears in both bands and is larger for single-day-observed identifiers (+8.4 pp vs. +6.2 pp). On conventional streets, the two ratios are similar (5.9% and 6.1%); on the pedestrian-priority street, they differ by 2.0 percentage points (14.3% and 12.3%).
 
 ::: {.callout-note collapse="true"}
 ## Interpreting the difference

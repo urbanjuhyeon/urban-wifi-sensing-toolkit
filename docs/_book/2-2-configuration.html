@@ -408,8 +408,8 @@ sensoradmin@sensor-a01:~ $      Raspberry Pi over SSH</code></pre>
 <h2 data-number="2.3" class="anchored" data-anchor-id="transfer-the-collector-package"><span class="header-section-number">2.3</span> Transfer the Collector Package</h2>
 <p>The downloadable package is a fixed, text-only collector snapshot. It contains no deployment key, database, packet capture, or credential.</p>
 <ul>
-<li><a href="downloads/urban-wifi-capture-anonymous.zip">Collector ZIP</a></li>
-<li><a href="downloads/urban-wifi-capture-anonymous.sha256">SHA-256 checksum</a></li>
+<li><a href="downloads/urban-wifi-capture.zip">Collector ZIP</a></li>
+<li><a href="downloads/urban-wifi-capture.sha256">SHA-256 checksum</a></li>
 </ul>
 <div class="callout callout-style-default callout-important callout-titled" title="Check which computer the prompt belongs to">
 <div class="callout-header d-flex align-content-center">
@@ -434,7 +434,7 @@ sensoradmin@sensor-a01:~ $      Raspberry Pi over SSH</code></pre>
 <h3 class="anchored" data-anchor-id="download-both-files-on-windows">Download both files on Windows</h3>
 <p>Click both links above and save the files in the same folder. The example below uses the Windows <code>Downloads</code> folder. Open PowerShell and confirm that both filenames are present:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> <span class="st">"</span><span class="va">$HOME</span><span class="st">\Downloads"</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> urban-wifi-capture-anonymous<span class="op">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">Get-ChildItem</span> urban-wifi-capture<span class="op">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Do not continue until both the <code>.zip</code> and <code>.sha256</code> files are listed.</p>
 </section>
 <section id="leave-ssh-before-running-scp" class="level3">
@@ -442,8 +442,8 @@ sensoradmin@sensor-a01:~ $      Raspberry Pi over SSH</code></pre>
 <p>If an SSH session is open, return to Windows first:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The prompt must now begin with <code>PS</code>. From the folder containing both downloaded files, copy them to the Pi:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scp <span class="op">.</span>\urban-wifi-capture-anonymous<span class="op">.</span><span class="fu">zip</span> `</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span>\urban-wifi-capture-anonymous<span class="op">.</span><span class="fu">sha256</span> `</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scp <span class="op">.</span>\urban-wifi-capture<span class="op">.</span><span class="fu">zip</span> `</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span>\urban-wifi-capture<span class="op">.</span><span class="fu">sha256</span> `</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  sensoradmin@sensor-a01<span class="op">.</span><span class="fu">local</span><span class="op">:~/</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Both files should reach <code>100%</code> before the PowerShell prompt returns.</p>
 <div id="fig-scp-collector-transfer" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -464,12 +464,12 @@ Figure&nbsp;2.1: Successful collector ZIP and checksum transfer from Windows Pow
 <p>Verify the download before extracting it:</p>
 <p><video src="materials/ch2/collector_verify_extract_2026.mp4" class="img-fluid" controls=""><a href="materials/ch2/collector_verify_extract_2026.mp4">Video</a></video></p>
 <p>This is a first-time installation path. If <code>~/capture-scripts</code> already exists from a previous attempt, move that directory aside before extracting rather than mixing two package versions in one source directory. Any deployment key or configuration from a previous installation lives under <code>/etc/urban-sensing</code>, not inside this extracted folder, so moving the folder aside is safe.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="at">-c</span> urban-wifi-capture-anonymous.sha256</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="at">-c</span> urban-wifi-capture.sha256</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install <span class="at">-y</span> unzip</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> <span class="at">-oq</span> urban-wifi-capture-anonymous.zip</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> <span class="at">-oq</span> urban-wifi-capture.zip</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ~/capture-scripts</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The checksum must report <code>urban-wifi-capture-anonymous.zip: OK</code>, and <code>pwd</code> must report <code>/home/sensoradmin/capture-scripts</code>. Stop if the checksum does not report <code>OK</code>; do not install an unverified archive.</p>
+<p>The checksum must report <code>urban-wifi-capture.zip: OK</code>, and <code>pwd</code> must report <code>/home/sensoradmin/capture-scripts</code>. Stop if the checksum does not report <code>OK</code>; do not install an unverified archive.</p>
 </section>
 </section>
 <section id="install-and-test" class="level2" data-number="2.4">

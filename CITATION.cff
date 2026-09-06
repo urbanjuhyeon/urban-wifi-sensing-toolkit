@@ -10,15 +10,15 @@ authors:
   - given-names: Jeongseob
     family-names: Kim
     affiliation: "Department of Civil, Urban, Earth, and Environmental Engineering, Ulsan National Institute of Science and Technology (UNIST)"
-version: "1.3.0"
-date-released: "2026-07-09"
+version: "1.4.0"
+date-released: "2026-07-19"
 repository-code: "https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit"
 url: "https://urbanjuhyeon.github.io/urban-wifi-sensing-toolkit/"
 license: MIT
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.18831563"
-    description: "Zenodo concept DOI (resolves to latest version)"
+    value: "10.5281/zenodo.21442379"
+    description: "Version-specific Zenodo archive of the code, data, and documentation"
 keywords:
   - wifi sensing
   - urban analytics

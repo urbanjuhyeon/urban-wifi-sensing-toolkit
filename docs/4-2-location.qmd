@@ -21,7 +21,7 @@ Download our sample dataset to follow along, or use your own WiFi detection data
 
 **Period**: October 21 – November 14, 2019. A single device with paired GPS ground truth.
 
-**Location**: UNIST campus, Ulsan, South Korea. 26 sensors in projected coordinates (KGD2002 Central Belt 2010).
+**Location**: UNIST campus, Ulsan, South Korea. 26 sensors in projected coordinates (KGD2002 Central Belt 2010): the 25 outdoor sensors plus one indoor sensor that detected this device. The toolkit's main analyses use 24 of these positions (@sec-deployment).
 
 **Data structure**:
 
@@ -37,7 +37,7 @@ Download our sample dataset to follow along, or use your own WiFi detection data
 2. Exported the paired restricted WiFi and GPS records and sensor coordinates
 3. Replaced the retained restricted identifier in both public files with the same 32-character, release- and dataset-specific HMAC-SHA-256 pseudonym
 
-This sample uses a single device with paired GPS ground truth, separate from the multi-device dataset used in later chapters (Count, Track, Revisits). Its 32-character pseudonym was assigned downstream when this tutorial archive was prepared for release; it must not be read as evidence that the maintained deployment-scoped HMAC collector operated in 2019.
+This sample uses a single device with paired GPS ground truth, separate from the multi-device dataset used in later chapters (Count, Track, Revisits). Its 32-character pseudonym was assigned downstream when this tutorial archive was prepared for release.
 :::
 
 ### Load packages and data

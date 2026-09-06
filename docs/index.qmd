@@ -8,7 +8,7 @@ This book documents an end-to-end toolkit for building and using WiFi sensors as
 
 Quantifying pedestrian traffic is essential for urban planning, public safety, and sustainable city development. Traditional methods such as manual counts and surveys are labor-intensive and provide only snapshots. WiFi sensing can collect repeated observations by receiving selected **IEEE 802.11 frames**, including probe requests that WiFi-enabled devices broadcast to discover nearby networks.
 
-Many pedestrians carry smartphones or other WiFi devices, so retained source-address observations can support location estimation, relative counting, and movement analysis across sensors. A retained identifier is a device-level proxy, not a person count, and modern MAC address randomization constrains every interpretation (@sec-randomization). The collector documented in this book pseudonymizes each source address at capture and never stores the raw address; the 2019--2020 field datasets predate this collector and were pseudonymized downstream for release. Passive collection requires no app or active participation from passers-by, which makes large-area observation practical but also creates ethical, legal, and governance obligations (see [When to Use This Toolkit](6-conclusion.qmd)).
+Many pedestrians carry smartphones or other WiFi devices, so retained source-address observations can support location estimation, relative counting, and movement analysis across sensors. A retained identifier is a device-level proxy, not a person count, and modern MAC address randomization constrains every interpretation (@sec-randomization). The collector documented in this book pseudonymizes each source address at capture and never stores the raw address. Passive collection requires no app or active participation from passers-by, which makes large-area observation practical but also creates ethical, legal, and governance obligations (see [When to Use This Toolkit](6-conclusion.qmd)).
 
 Recent urban sensing initiatives, such as the [Array of Things in Chicago](https://arrayofthings.github.io/) and [S-DoT in Seoul](https://github.com/seoul-iotdata/S-DoT_SampleData), demonstrate the growing interest in **sensor-based urban analytics**. This book makes WiFi sensing accessible to researchers, planners, and practitioners using **affordable, off-the-shelf components**.
 
@@ -48,6 +48,14 @@ Everything you will analyze comes from one source, presented at three depths:
 
 The sample is a pure filter of the release, with the same pseudonyms and schema, so anything observed in a tutorial can be followed into the full data. The release datasets ship with the repository (`data/release-20sec/`) and in the archived deposit cited by the manuscript. The one exception is the GPS validation subset in [Location](4-2-location.qmd), whose identifiers are keyed separately so participant GPS traces cannot be joined to the released data.
 
+
+## Code and archived data
+
+The code, data, and documentation snapshot (version 1.4.0) is archived at
+[Zenodo](https://doi.org/10.5281/zenodo.21442379). Maintained source code is
+available in the [GitHub repository](https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit).
+Code and original documentation are licensed under MIT, and the released
+datasets under CC BY 4.0.
 
 ## References
 

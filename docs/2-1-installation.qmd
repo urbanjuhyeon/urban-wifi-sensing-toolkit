@@ -68,9 +68,13 @@ The core components are:
 
 Additional sensors such as cameras or environmental monitors can be added for extended data collection.
 
-::: {.callout-note collapse="true" title="Costs at the Time of the Original Deployments"}
+::: {.callout-note collapse="true" title="Hardware costs"}
 
 All components are commodity electronics. A complete unit as deployed in the 2019--2020 field studies (@sec-deployment) cost roughly **USD 80--100** at the time: a Raspberry Pi Model 3 B+ (about USD 35--40) was the single largest item, the three RT5370 USB WiFi adapters added only a few dollars per set, and the rest went to a 32--64 GB micro SD card, a 20,000 mAh power bank, and casing and mounting materials. Prices vary by market and year, and any Pi Model 3 or newer works as long as the selected adapter's monitor mode and radiotap RSSI support are confirmed through the controlled hardware test in the Deployment chapter.
+
+For comparison, the **Raspberry Pi 3 Model B+ board alone** was listed at **USD 40 in September 2026**.[^pi-board-price]
+
+[^pi-board-price]: PiShop.us, "Raspberry Pi 3 Model B Plus (B+)," <https://www.pishop.us/product/raspberry-pi-3-model-b-plus/> (accessed 6 September 2026).
 
 Off-the-shelf counting options sit in a much higher range. Dedicated lidar counters cost several thousand dollars per unit: the SICK MRS1000 scanner, for instance, was listed by industrial distributors at roughly USD 4,900--5,700 as of 2026.[^lidar-price] Stereo-vision people counters such as the Xovis PC2 series retail at roughly EUR 1,300--1,800 per sensor, usually alongside a separate software license,[^stereo-price] and simpler infrared beam counters run EUR 90--500 per unit. Turnkey WiFi-analytics services, which most closely resemble what this toolkit does, are typically sold as ongoing subscriptions rather than one-off purchases: one 2024 evaluation reported about 885 SEK, roughly **EUR 75 per measuring point per day**, for such a service [@mandalHowUsefulAre2024].
 

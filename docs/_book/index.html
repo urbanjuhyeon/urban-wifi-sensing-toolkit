@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Juhyeon Park">
-<meta name="dcterms.date" content="2026-07-19">
+<meta name="dcterms.date" content="2026-09-06">
 
 <title>WiFi Sensing for Urban Analytics: An Open-Source R Toolkit</title>
 <style>
@@ -312,6 +312,7 @@ div.csl-indent {
   <li><a href="#passive-vs-active-wifi-sensing" id="toc-passive-vs-active-wifi-sensing" class="nav-link" data-scroll-target="#passive-vs-active-wifi-sensing">Passive vs Active WiFi Sensing</a></li>
   <li><a href="#what-this-book-covers" id="toc-what-this-book-covers" class="nav-link" data-scroll-target="#what-this-book-covers">What This Book Covers</a></li>
   <li><a href="#the-data-in-this-book" id="toc-the-data-in-this-book" class="nav-link" data-scroll-target="#the-data-in-this-book">The Data in This Book</a></li>
+  <li><a href="#code-and-archived-data" id="toc-code-and-archived-data" class="nav-link" data-scroll-target="#code-and-archived-data">Code and archived data</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul></li>
   </ul>
@@ -339,7 +340,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">July 19, 2026</p>
+      <p class="date">September 6, 2026</p>
     </div>
   </div>
   
@@ -363,7 +364,7 @@ div.csl-indent {
 </figure>
 </div>
 <p>Quantifying pedestrian traffic is essential for urban planning, public safety, and sustainable city development. Traditional methods such as manual counts and surveys are labor-intensive and provide only snapshots. WiFi sensing can collect repeated observations by receiving selected <strong>IEEE 802.11 frames</strong>, including probe requests that WiFi-enabled devices broadcast to discover nearby networks.</p>
-<p>Many pedestrians carry smartphones or other WiFi devices, so retained source-address observations can support location estimation, relative counting, and movement analysis across sensors. A retained identifier is a device-level proxy, not a person count, and modern MAC address randomization constrains every interpretation (<a href="B-randomization.html" class="quarto-xref"><span>Appendix B — MAC Address Randomization</span></a>). The collector documented in this book pseudonymizes each source address at capture and never stores the raw address; the 2019–2020 field datasets predate this collector and were pseudonymized downstream for release. Passive collection requires no app or active participation from passers-by, which makes large-area observation practical but also creates ethical, legal, and governance obligations (see <a href="./6-conclusion.html">When to Use This Toolkit</a>).</p>
+<p>Many pedestrians carry smartphones or other WiFi devices, so retained source-address observations can support location estimation, relative counting, and movement analysis across sensors. A retained identifier is a device-level proxy, not a person count, and modern MAC address randomization constrains every interpretation (<a href="B-randomization.html" class="quarto-xref"><span>Appendix B — MAC Address Randomization</span></a>). The collector documented in this book pseudonymizes each source address at capture and never stores the raw address. Passive collection requires no app or active participation from passers-by, which makes large-area observation practical but also creates ethical, legal, and governance obligations (see <a href="./6-conclusion.html">When to Use This Toolkit</a>).</p>
 <p>Recent urban sensing initiatives, such as the <a href="https://arrayofthings.github.io/">Array of Things in Chicago</a> and <a href="https://github.com/seoul-iotdata/S-DoT_SampleData">S-DoT in Seoul</a>, demonstrate the growing interest in <strong>sensor-based urban analytics</strong>. This book makes WiFi sensing accessible to researchers, planners, and practitioners using <strong>affordable, off-the-shelf components</strong>.</p>
 </section>
 <section id="passive-vs-active-wifi-sensing" class="level2">
@@ -394,6 +395,10 @@ div.csl-indent {
 <li><strong>Release datasets</strong>: the full campus (15.0 million rows) and commercial district (5.4 million rows). They back the <a href="./5-2-casestudy.html">case study</a> and the accompanying manuscript.</li>
 </ul>
 <p>The sample is a pure filter of the release, with the same pseudonyms and schema, so anything observed in a tutorial can be followed into the full data. The release datasets ship with the repository (<code>data/release-20sec/</code>) and in the archived deposit cited by the manuscript. The one exception is the GPS validation subset in <a href="./4-2-location.html">Location</a>, whose identifiers are keyed separately so participant GPS traces cannot be joined to the released data.</p>
+</section>
+<section id="code-and-archived-data" class="level2">
+<h2 class="anchored" data-anchor-id="code-and-archived-data">Code and archived data</h2>
+<p>The code, data, and documentation snapshot (version 1.4.0) is archived at <a href="https://doi.org/10.5281/zenodo.21442379">Zenodo</a>. Maintained source code is available in the <a href="https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit">GitHub repository</a>. Code and original documentation are licensed under MIT, and the released datasets under CC BY 4.0.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>

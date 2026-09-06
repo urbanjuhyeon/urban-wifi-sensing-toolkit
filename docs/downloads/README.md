@@ -21,30 +21,30 @@ The GPS-scope key and identifier mappings are not included. Downloaded
 archive bytes can be checked against `sample-archives.sha256`, which lists
 exactly these field-derived archives.
 
-## Reviewer capture-software archive
+## Capture-software archive
 
-`urban-wifi-capture-anonymous.zip` is a deterministically generated,
-author-anonymous, text-only snapshot used by Chapters 2.1--2.3. It contains the
+`urban-wifi-capture.zip` is a deterministically generated,
+text-only snapshot used by Chapters 2.1--2.3. It contains the
 maintained Raspberry Pi collector, installer, systemd units, tests, and
 governance files.
 
 The archive contains no deployment key, database, packet capture, image,
 video, credential, Git history, or author-identifying repository URL. Verify
-it before extraction with `urban-wifi-capture-anonymous.sha256`.
+it before extraction with `urban-wifi-capture.sha256`.
 
 The canonical source is tracked in `collector/`. The internal
-`MANIFEST.sha256`, reviewer ZIP, and outer checksum are generated artifacts.
+`MANIFEST.sha256`, collector ZIP, and outer checksum are generated artifacts.
 From the repository root, regenerate them with:
 
 ```bash
-python scripts/docs/build_capture_archive.py
+python scripts/docs/build_capture_archive.py --archive docs/downloads/urban-wifi-capture.zip --checksum docs/downloads/urban-wifi-capture.sha256
 ```
 
 Verify that the committed artifacts match two fresh in-memory builds from the
 canonical source with:
 
 ```bash
-python scripts/docs/build_capture_archive.py --check
+python scripts/docs/build_capture_archive.py --archive docs/downloads/urban-wifi-capture.zip --checksum docs/downloads/urban-wifi-capture.sha256 --check
 ```
 
 The check fails if the source member allowlist, normalized contents, archive

@@ -1,4 +1,4 @@
-# WiFi Sensing Toolkit for Urban Studies
+# WiFi Sensing for Urban Analytics: An Open-Source R Toolkit
 
 This repository documents a reproducible pipeline for turning privacy-minimized
 passive WiFi observations into five urban-analysis outputs: Location, Count,
@@ -6,6 +6,11 @@ Track, Revisits, and Activities.
 
 The rendered online documentation is available at
 [urbanjuhyeon.github.io/urban-wifi-sensing-toolkit](https://urbanjuhyeon.github.io/urban-wifi-sensing-toolkit/).
+
+The version 1.4.0 snapshot of the code, data, and documentation is archived at
+[Zenodo](https://doi.org/10.5281/zenodo.21442379). This repository and the online
+book provide the maintained code and documentation. Citation metadata are in
+`CITATION.cff`.
 
 ## Pipeline boundary
 

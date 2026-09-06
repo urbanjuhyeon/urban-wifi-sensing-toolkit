@@ -71,7 +71,7 @@ These diagnostic percentages are computed from restricted pre-pseudonymization a
 
 If the retained stream captures the same broad temporal rhythm as the removed stream, their hourly address counts should rise and fall together. @fig-rand-temporal plots the hourly unique-address count for each stream across both sites. Because no address appears in both groups, correlation reflects shared timing in the two streams; it does not show that their users or devices are compositionally equivalent.
 
-The relationship is strong at both sites: $r$ = 0.916 at the UNIST campus (624 hours) and $r$ = 0.833 in the commercial district (222 hours). The commercial district also has a larger locally administered detection share (22.3% versus 4.8%) and a noisier randomized-address count. These site-level associations support relative temporal analysis in these datasets but do not establish an unbiased retained sample.
+The relationship is strong at both sites: $r$ = 0.916 at the UNIST campus (624 hours) and $r$ = 0.833 in the commercial district (222 hours). The hour counts come from the raw captures, so the district figure spans its full capture window rather than the nine analysis days reported in @sec-deployment. The commercial district also has a larger locally administered detection share (22.3% versus 4.8%) and a noisier randomized-address count. These site-level associations support relative temporal analysis in these datasets but do not establish an unbiased retained sample.
 
 ![**Hourly unique address counts for the randomized-only and non-randomized-only streams across both sites.** Each point is one hour; lines show linear fits.](materials/appendix/fig_rand_temporal.png){#fig-rand-temporal}
 

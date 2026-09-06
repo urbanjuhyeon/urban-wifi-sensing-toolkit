@@ -63,7 +63,7 @@ tables. Repeating them on every observation would add redundancy without
 supporting the metrics.
 
 ::: {.callout-important title="Identifier scope"}
-For one deployment, every sensor and date uses the same opaque deployment ID and the same secret 32-byte key. The collector stores the first 16 bytes of a domain-separated HMAC-SHA-256 value as 32 lowercase hexadecimal characters. A later deployment uses a new ID and key, preventing direct cross-deployment linkage. These records remain pseudonymous, not anonymous. This maintained convention is not attributed retrospectively to the 2019--2020 field collection.
+For one deployment, every sensor and date uses the same opaque deployment ID and the same secret 32-byte key. The collector stores the first 16 bytes of a domain-separated HMAC-SHA-256 value as 32 lowercase hexadecimal characters. A later deployment uses a new ID and key, preventing direct cross-deployment linkage. These records remain pseudonymous, not anonymous.
 :::
 
 ::: {.callout-tip title="Run the whole pipeline with one command"}

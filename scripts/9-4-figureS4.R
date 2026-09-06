@@ -58,7 +58,7 @@ SITES <- tribble(
   "uou20",      "(b) Commercial district", "Ulsan · Jul 2020 · 17 sensors",  17, 100, 0.72,
   "seongnam22", "(c) Old downtown",        "Ulsan · Nov 2022 · 8 sensors",   17, 100, 0.42,
   "jeonju23",   "(d) Pedestrian street",   "Jeonju · Jul 2023 · 3 sensors",  17, 50,  0.46,
-  "pops24",     "(e) Privately owned\npublic space", "Ulsan · Apr 2024 · 3 sensors", 18, 50, 0.72
+  "pops24",     "(e) Privately owned public space", "Ulsan · Apr 2024 · 3 sensors", 18, 50, 0.72
 )
 
 sensor_color <- "#C2185B"
@@ -88,7 +88,7 @@ add_overlays <- function(p, xy, xlim, ylim, bar_len, bar_m, title, subtitle,
     labs(title = title, subtitle = subtitle) +
     theme_void() +
     theme(
-      plot.title    = element_text(size = 12.5, face = "bold",
+      plot.title    = element_text(size = 11.5, face = "bold",
                                    margin = margin(b = 4)),
       plot.subtitle = element_text(size = 9.5, color = "grey30",
                                    margin = margin(b = 4, l = 1.5)),

@@ -69,8 +69,8 @@ terminal, try `Ctrl+Shift+V` or right-click.
 The downloadable package is a fixed, text-only collector snapshot. It contains
 no deployment key, database, packet capture, or credential.
 
-- [Collector ZIP](downloads/urban-wifi-capture-anonymous.zip)
-- [SHA-256 checksum](downloads/urban-wifi-capture-anonymous.sha256)
+- [Collector ZIP](downloads/urban-wifi-capture.zip)
+- [SHA-256 checksum](downloads/urban-wifi-capture.sha256)
 
 ::: {.callout-important title="Check which computer the prompt belongs to"}
 Commands containing a Windows path run in **Windows PowerShell**, outside SSH.
@@ -90,7 +90,7 @@ filenames are present:
 
 ```powershell
 cd "$HOME\Downloads"
-Get-ChildItem urban-wifi-capture-anonymous*
+Get-ChildItem urban-wifi-capture*
 ```
 
 Do not continue until both the `.zip` and `.sha256` files are listed.
@@ -107,8 +107,8 @@ The prompt must now begin with `PS`. From the folder containing both downloaded
 files, copy them to the Pi:
 
 ```powershell
-scp .\urban-wifi-capture-anonymous.zip `
-  .\urban-wifi-capture-anonymous.sha256 `
+scp .\urban-wifi-capture.zip `
+  .\urban-wifi-capture.sha256 `
   sensoradmin@sensor-a01.local:~/
 ```
 
@@ -135,14 +135,14 @@ configuration from a previous installation lives under `/etc/urban-sensing`,
 not inside this extracted folder, so moving the folder aside is safe.
 
 ```bash
-sha256sum -c urban-wifi-capture-anonymous.sha256
+sha256sum -c urban-wifi-capture.sha256
 sudo apt install -y unzip
-unzip -oq urban-wifi-capture-anonymous.zip
+unzip -oq urban-wifi-capture.zip
 cd ~/capture-scripts
 pwd
 ```
 
-The checksum must report `urban-wifi-capture-anonymous.zip: OK`, and `pwd`
+The checksum must report `urban-wifi-capture.zip: OK`, and `pwd`
 must report `/home/sensoradmin/capture-scripts`. Stop if the checksum does not
 report `OK`; do not install an unverified archive.
 

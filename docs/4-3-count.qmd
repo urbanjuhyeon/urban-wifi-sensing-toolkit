@@ -32,7 +32,7 @@ Download our sample dataset to follow along, or use your own WiFi detection data
 2. Release- and dataset-specific HMAC-SHA-256 pseudonyms were assigned downstream when the release was built
 3. The sample keeps one week of that release, unchanged
 
-These 32-character release pseudonyms were assigned downstream; they do not establish how the 2019 field devices handled source addresses.
+These 32-character release pseudonyms were assigned downstream when the release was built.
 :::
 
 ### Load packages and data
@@ -271,14 +271,14 @@ ggmap(base_map, darken = c(0.3, "white")) +
   theme(axis.title = element_blank(), axis.text = element_blank(), axis.ticks = element_blank())
 ```
 
-![Sensor counts during midday (11:00–14:00), weekday vs weekend.](materials/ch4/count_sensor_map_detailed.png)
+![Sensor counts during midday (11:00–15:00), weekday vs weekend.](materials/ch4/count_sensor_map_detailed.png)
 
 ::: {.callout-note collapse="true"}
 ## Reading the spatial pattern
 
 With the known campus land uses as context, the map shows these descriptive contrasts:
 
-- **Dormitory-area sensors**: the smallest weekday-to-weekend decline; weekend counts remain near half the weekday level
+- **Dormitory-area sensors**: the smallest weekday-to-weekend decline
 - **Engineering-building sensors**: pronounced weekday peaks
 - **Cafeteria-area sensors**: comparatively high counts on both day types, with a larger weekday midday value
 - **Bus-station sensor**: a larger weekday than weekend count

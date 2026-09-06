@@ -435,20 +435,21 @@ div.csl-indent {
 <li><strong>Optional Ethernet cable</strong>: Retained only as a fallback management route; the current main walkthrough uses a mobile hotspot.</li>
 </ul>
 <p>Additional sensors such as cameras or environmental monitors can be added for extended data collection.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="Costs at the Time of the Original Deployments">
+<div class="callout callout-style-default callout-note callout-titled" title="Hardware costs">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Costs at the Time of the Original Deployments
+<span class="screen-reader-only">Note</span>Hardware costs
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>All components are commodity electronics. A complete unit as deployed in the 2019–2020 field studies (<a href="A-deployment.html" class="quarto-xref"><span>Appendix A</span></a>) cost roughly <strong>USD 80–100</strong> at the time: a Raspberry Pi Model 3 B+ (about USD 35–40) was the single largest item, the three RT5370 USB WiFi adapters added only a few dollars per set, and the rest went to a 32–64 GB micro SD card, a 20,000 mAh power bank, and casing and mounting materials. Prices vary by market and year, and any Pi Model 3 or newer works as long as the selected adapter’s monitor mode and radiotap RSSI support are confirmed through the controlled hardware test in the Deployment chapter.</p>
-<p>Off-the-shelf counting options sit in a much higher range. Dedicated lidar counters cost several thousand dollars per unit: the SICK MRS1000 scanner, for instance, was listed by industrial distributors at roughly USD 4,900–5,700 as of 2026.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> Stereo-vision people counters such as the Xovis PC2 series retail at roughly EUR 1,300–1,800 per sensor, usually alongside a separate software license,<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> and simpler infrared beam counters run EUR 90–500 per unit. Turnkey WiFi-analytics services, which most closely resemble what this toolkit does, are typically sold as ongoing subscriptions rather than one-off purchases: one 2024 evaluation reported about 885 SEK, roughly <strong>EUR 75 per measuring point per day</strong>, for such a service<span class="citation" data-cites="mandalHowUsefulAre2024"><sup><a href="index.html#ref-mandalHowUsefulAre2024" role="doc-biblioref">1</a></sup></span>.</p>
+<p>For comparison, the <strong>Raspberry Pi 3 Model B+ board alone</strong> was listed at <strong>USD 40 in September 2026</strong>.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Off-the-shelf counting options sit in a much higher range. Dedicated lidar counters cost several thousand dollars per unit: the SICK MRS1000 scanner, for instance, was listed by industrial distributors at roughly USD 4,900–5,700 as of 2026.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Stereo-vision people counters such as the Xovis PC2 series retail at roughly EUR 1,300–1,800 per sensor, usually alongside a separate software license,<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> and simpler infrared beam counters run EUR 90–500 per unit. Turnkey WiFi-analytics services, which most closely resemble what this toolkit does, are typically sold as ongoing subscriptions rather than one-off purchases: one 2024 evaluation reported about 885 SEK, roughly <strong>EUR 75 per measuring point per day</strong>, for such a service<span class="citation" data-cites="mandalHowUsefulAre2024"><sup><a href="index.html#ref-mandalHowUsefulAre2024" role="doc-biblioref">1</a></sup></span>.</p>
 <p>The comparison is not that the do-it-yourself sensor is strictly better. The commercial options provide turnkey deployment, vendor support, and validated accuracy out of the box, which a self-built sensor does not. What the toolkit offers in exchange is a low hardware cost, direct access to the collected observation data, and the freedom to inspect and modify every step of the processing, which suits research use where transparency and adaptability matter more than plug-and-play convenience.</p>
 </div>
 </div>
@@ -733,8 +734,9 @@ Figure&nbsp;1.3: The computer and sensor-a01 connected to the same hotspot after
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p>Figure from industrial distributor listings (Motion World; RS Components), retrieved July 2026. Prices for surveying-grade sensors change frequently and larger configurations are often quoted only on request, so treat this as an order-of-magnitude reference rather than a fixed price.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Authorized-distributor listing (Vemco Group) for the Xovis PC2SE line, retrieved July 2026. Enterprise counters are often sold through integrator quotes rather than fixed public prices, so treat this as indicative.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>PiShop.us, “Raspberry Pi 3 Model B Plus (B+),” <a href="https://www.pishop.us/product/raspberry-pi-3-model-b-plus/" class="uri">https://www.pishop.us/product/raspberry-pi-3-model-b-plus/</a> (accessed 6 September 2026).<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Figure from industrial distributor listings (Motion World; RS Components), retrieved July 2026. Prices for surveying-grade sensors change frequently and larger configurations are often quoted only on request, so treat this as an order-of-magnitude reference rather than a fixed price.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Authorized-distributor listing (Vemco Group) for the Xovis PC2SE line, retrieved July 2026. Enterprise counters are often sold through integrator quotes rather than fixed public prices, so treat this as indicative.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 
