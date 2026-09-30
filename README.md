@@ -5,7 +5,7 @@ passive WiFi observations into five urban-analysis outputs: Location, Count,
 Track, Revisits, and Activities.
 
 The rendered online documentation is available at
-[urbanjuhyeon.github.io/urban-wifi-sensing-toolkit](https://urbanjuhyeon.github.io/urban-wifi-sensing-toolkit/).
+[juhyeonpark.com/urban-wifi-sensing-toolkit](https://juhyeonpark.com/urban-wifi-sensing-toolkit/).
 
 The version 1.4.0 snapshot of the code, data, and documentation is archived at
 [Zenodo](https://doi.org/10.5281/zenodo.21442379). This repository and the online
@@ -82,7 +82,7 @@ three depths:
 |---|---|---|---|
 | Synthetic fixture | fully synthetic capture, no personal data | `workflow/ch3_tutorial/` | processing walkthrough (book Ch. 3) |
 | One-week sample | one local week filtered from the released campus dataset | `docs/downloads/sample_main.zip` | metric tutorials (book Ch. 4) |
-| Release datasets | full 20-second campus (15.0M rows) and commercial-district (5.4M rows) data | `data/release-20sec/` | case study (book Ch. 5) and the manuscript |
+| Release datasets | full 20-second campus (15.0M rows) and commercial-district (5.4M rows) data | `data/release-20sec/` | case study (book Ch. 5) and the companion paper |
 
 `scripts/0-8-sample-main-from-release.R` derives the sample from the release;
 pseudonyms, schema, and values are identical, so sample observations can be

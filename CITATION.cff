@@ -10,7 +10,7 @@ authors:
 version: "1.4.0"
 date-released: "2026-07-19"
 repository-code: "https://github.com/urbanjuhyeon/urban-wifi-sensing-toolkit"
-url: "https://urbanjuhyeon.github.io/urban-wifi-sensing-toolkit/"
+url: "https://juhyeonpark.com/urban-wifi-sensing-toolkit/"
 license: MIT
 identifiers:
   - type: doi
