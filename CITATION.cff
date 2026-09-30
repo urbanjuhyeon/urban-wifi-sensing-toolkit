@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: "WiFi Sensing for Urban Analytics: An Open-Source R Toolkit"
-message: "If you use this software, please cite it using these metadata."
+message: "If you use this software or the released data, please cite the companion paper listed under preferred-citation."
 type: software
 authors:
   - given-names: Juhyeon
@@ -22,3 +22,15 @@ keywords:
   - pedestrian monitoring
   - open source
   - IoT
+preferred-citation:
+  type: article
+  title: "WiFi sensing for urban analytics: An open-source R toolkit"
+  authors:
+    - given-names: Juhyeon
+      family-names: Park
+      orcid: "https://orcid.org/0000-0002-9562-5454"
+    - given-names: Jeongseob
+      family-names: Kim
+  journal: "Environment and Planning B: Urban Analytics and City Science"
+  year: 2026
+  doi: "10.1177/23998083261492368"

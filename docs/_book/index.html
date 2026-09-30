@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Juhyeon Park">
-<meta name="dcterms.date" content="2026-09-06">
+<meta name="dcterms.date" content="2026-09-30">
 
 <title>WiFi Sensing for Urban Analytics: An Open-Source R Toolkit</title>
 <style>
@@ -340,7 +340,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 6, 2026</p>
+      <p class="date">September 30, 2026</p>
     </div>
   </div>
   
@@ -355,6 +355,20 @@ div.csl-indent {
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
 <p>This book documents an end-to-end toolkit for building and using WiFi sensors as a proxy for <strong>pedestrian activity</strong> in urban environments. It covers hardware setup, data processing, and five analytical metrics: Location, Count, Track, Revisits, and Activities.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Companion paper
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This book accompanies Park, J., &amp; Kim, J. (2026). <a href="https://doi.org/10.1177/23998083261492368">WiFi sensing for urban analytics: An open-source R toolkit</a>. <em>Environment and Planning B: Urban Analytics and City Science</em>.</p>
+<p>If you use the toolkit or the released data, please cite the paper. To cite the exact code and data version, also cite the <a href="https://doi.org/10.5281/zenodo.21442379">Zenodo archive</a> (v1.4.0).</p>
+</div>
+</div>
 <section id="why-wifi-sensing" class="level2">
 <h2 class="anchored" data-anchor-id="why-wifi-sensing">Why WiFi Sensing?</h2>
 <div class="quarto-figure quarto-figure-center">
@@ -392,9 +406,9 @@ div.csl-indent {
 <ul>
 <li><strong>Synthetic fixture</strong>: a fully synthetic capture with no personal data. It drives the processing walkthrough, from <a href="./3-1-aggregation.html">Aggregation</a> through <a href="./3-2-cleaning.html">Cleaning</a>.</li>
 <li><strong>One-week sample</strong>: one local week filtered from the released campus dataset, about 4.2 million rows. It keeps the metric tutorials light, from <a href="./4-3-count.html">Count</a> through <a href="./4-6-activities.html">Activities</a>.</li>
-<li><strong>Release datasets</strong>: the full campus (15.0 million rows) and commercial district (5.4 million rows). They back the <a href="./5-2-casestudy.html">case study</a> and the accompanying manuscript.</li>
+<li><strong>Release datasets</strong>: the full campus (15.0 million rows) and commercial district (5.4 million rows). They back the <a href="./5-2-casestudy.html">case study</a> and the <a href="https://doi.org/10.1177/23998083261492368">companion paper</a>.</li>
 </ul>
-<p>The sample is a pure filter of the release, with the same pseudonyms and schema, so anything observed in a tutorial can be followed into the full data. The release datasets ship with the repository (<code>data/release-20sec/</code>) and in the archived deposit cited by the manuscript. The one exception is the GPS validation subset in <a href="./4-2-location.html">Location</a>, whose identifiers are keyed separately so participant GPS traces cannot be joined to the released data.</p>
+<p>The sample is a pure filter of the release, with the same pseudonyms and schema, so anything observed in a tutorial can be followed into the full data. The release datasets ship with the repository (<code>data/release-20sec/</code>) and in the archived deposit cited by the paper. The one exception is the GPS validation subset in <a href="./4-2-location.html">Location</a>, whose identifiers are keyed separately so participant GPS traces cannot be joined to the released data.</p>
 </section>
 <section id="code-and-archived-data" class="level2">
 <h2 class="anchored" data-anchor-id="code-and-archived-data">Code and archived data</h2>

@@ -1,6 +1,6 @@
 # When to Use This Toolkit {.unnumbered}
 
-The chapters above cover the full pipeline: building sensors, processing pseudonymized observations, and extracting the five metrics. This closing page summarizes what the toolkit is suited for, where its limits lie, and what responsible use requires. The scholarly treatment of these points is in the accompanying manuscript.
+The chapters above cover the full pipeline: building sensors, processing pseudonymized observations, and extracting the five metrics. This closing page summarizes what the toolkit is suited for, where its limits lie, and what responsible use requires. The scholarly treatment of these points is in the [companion paper](https://doi.org/10.1177/23998083261492368) in *Environment and Planning B: Urban Analytics and City Science*.
 
 The toolkit answers questions about pattern rather than headcount. It shows when activity rises and falls at a site, by hour, by day type, or around an event, and which locations record more or less activity as that ranking shifts over time. From the same records it recovers recurring sensor-to-sensor flows and the places where devices linger. All of this runs on commodity hardware that needs no fixed power or network connection, which keeps deployment quick and inexpensive.
 

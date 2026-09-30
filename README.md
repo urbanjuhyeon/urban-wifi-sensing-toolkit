@@ -12,6 +12,17 @@ The version 1.4.0 snapshot of the code, data, and documentation is archived at
 book provide the maintained code and documentation. Citation metadata are in
 `CITATION.cff`.
 
+## Citation
+
+If you use the toolkit or the released data, please cite the companion paper:
+
+> Park, J., & Kim, J. (2026). WiFi sensing for urban analytics: An open-source
+> R toolkit. *Environment and Planning B: Urban Analytics and City Science*.
+> https://doi.org/10.1177/23998083261492368
+
+To cite the exact code and data version, also cite the Zenodo archive
+(v1.4.0, https://doi.org/10.5281/zenodo.21442379).
+
 ## Pipeline boundary
 
 The maintained pipeline separates collection, restricted processing, and

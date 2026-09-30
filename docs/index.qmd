@@ -2,6 +2,14 @@
 
 This book documents an end-to-end toolkit for building and using WiFi sensors as a proxy for **pedestrian activity** in urban environments. It covers hardware setup, data processing, and five analytical metrics: Location, Count, Track, Revisits, and Activities.
 
+::: {.callout-note appearance="simple"}
+## Companion paper
+
+This book accompanies Park, J., & Kim, J. (2026). [WiFi sensing for urban analytics: An open-source R toolkit](https://doi.org/10.1177/23998083261492368). *Environment and Planning B: Urban Analytics and City Science*.
+
+If you use the toolkit or the released data, please cite the paper. To cite the exact code and data version, also cite the [Zenodo archive](https://doi.org/10.5281/zenodo.21442379) (v1.4.0).
+:::
+
 ## Why WiFi Sensing?
 
 ![WiFi sensing concept: sensors mounted on buildings detect probe requests broadcast by WiFi-enabled devices carried by pedestrians.](materials/ch1/wifi-sensing-concept.png)
@@ -44,9 +52,9 @@ Everything you will analyze comes from one source, presented at three depths:
 
 - **Synthetic fixture**: a fully synthetic capture with no personal data. It drives the processing walkthrough, from [Aggregation](3-1-aggregation.qmd) through [Cleaning](3-2-cleaning.qmd).
 - **One-week sample**: one local week filtered from the released campus dataset, about 4.2 million rows. It keeps the metric tutorials light, from [Count](4-3-count.qmd) through [Activities](4-6-activities.qmd).
-- **Release datasets**: the full campus (15.0 million rows) and commercial district (5.4 million rows). They back the [case study](5-2-casestudy.qmd) and the accompanying manuscript.
+- **Release datasets**: the full campus (15.0 million rows) and commercial district (5.4 million rows). They back the [case study](5-2-casestudy.qmd) and the [companion paper](https://doi.org/10.1177/23998083261492368).
 
-The sample is a pure filter of the release, with the same pseudonyms and schema, so anything observed in a tutorial can be followed into the full data. The release datasets ship with the repository (`data/release-20sec/`) and in the archived deposit cited by the manuscript. The one exception is the GPS validation subset in [Location](4-2-location.qmd), whose identifiers are keyed separately so participant GPS traces cannot be joined to the released data.
+The sample is a pure filter of the release, with the same pseudonyms and schema, so anything observed in a tutorial can be followed into the full data. The release datasets ship with the repository (`data/release-20sec/`) and in the archived deposit cited by the paper. The one exception is the GPS validation subset in [Location](4-2-location.qmd), whose identifiers are keyed separately so participant GPS traces cannot be joined to the released data.
 
 
 ## Code and archived data
